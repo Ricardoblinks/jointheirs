@@ -23,7 +23,6 @@ export default function GemaexpoPage() {
               width={400}
               height={300}
               className="rounded-2xl shadow-lg"
-              onError={(e) => { e.currentTarget.src = '/images/shared/placeholder.jpg'; }}
             />
           </div>
         </div>
