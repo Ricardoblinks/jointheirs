@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Users, MapPin, Briefcase, Award, TrendingUp, Target } from 'lucide-react';
+import { ArrowRight, Users, MapPin, Briefcase, Award, Target } from 'lucide-react';
 
 const stats = [
 	{ icon: Briefcase, label: 'Jobs Created', value: '72,000+', color: 'text-blue-600' },
@@ -23,7 +23,7 @@ const initiatives = [
 		title: 'Beyond Oil Initiative (BOIN)',
 		subtitle: 'Economic Diversification Program',
 		description: 'Discovering unique viable indigenous products and creating 72,000+ agribusiness value chain jobs.',
-		image: '/images/initiatives/boin/boin-hero-agriculture.jpg',
+		image: '/images/initiatives/boin/boin-hero-agriculture.png',
 		href: '/boin',
 		color: 'bg-green-600',
 	},
@@ -39,7 +39,7 @@ const initiatives = [
 		title: 'SONI',
 		subtitle: 'Showcase Outstanding Nigerian Initiatives',
 		description: 'Highlighting grassroots initiatives making positive impact across Nigeria through innovation and community development.',
-		image: '/images/initiatives/soni/soni-hero-innovation.jpg',
+		image: '/images/initiatives/soni/soni-hero-innovation.jpeg',
 		href: '/soni',
 		color: 'bg-orange-600',
 	},
@@ -68,27 +68,28 @@ export default function HomePage() {
 								<span className="text-gradient block">Future</span>
 							</h1>
 							<p className="text-xl lg:text-2xl mb-8 text-blue-100">
-								Delivering qualitative, timely, and value-based services to realize clients' goals through target-oriented professionals and innovative technology.
+								Delivering qualitative, timely, and value-based services to realize clients&apos; goals through target-oriented professionals and innovative technology.
 							</p>
 							<div className="flex flex-col sm:flex-row gap-4">
 								<Link href="/about" className="btn-primary text-lg px-8 py-4">
 									Learn More
 									<ArrowRight className="ml-2 h-5 w-5 inline" />
 								</Link>
-								<Link href="/contact" className="btn-secondary text-lg px-8 py-4">
-									Get Involved
-								</Link>
+								{/* <Link href="/contact" className="btn-secondary text-lg px-8 py-4">
+									Get In Touch
+								</Link> */}
 							</div>
 						</div>
 						<div className="animate-slide-up">
 							<Image
 								src="/images/shared/landingpage-top.jpg"
 								// src="/images/shared/adanma-ogumka-ekeji-profile.jpg"
-								alt="Adanma Ogumka-Ekeji, Managing Director/CEO"
+								alt=""
 								width={600}
 								height={1800}
 								className="rounded-2xl shadow-2xl"
 								priority
+								// onError={(e) => { e.currentTarget.src = '/images/shared/placeholder.jpg'; }}
 							/>
 						</div>
 					</div>
@@ -132,11 +133,12 @@ export default function HomePage() {
 					<div className="grid lg:grid-cols-2 gap-12 items-center">
 						<div>
 							<Image
-								src="/images/shared/company-building-exterior.jpg"
-								alt="Joint Heirs Limited Office Building"
+								src="/images/shared/placeholder.jpg"
+								alt=""
 								width={600}
 								height={400}
 								className="rounded-2xl shadow-lg"
+								// onError={(e) => { e.currentTarget.src = '/images/shared/placeholder.jpg'; }}
 							/>
 						</div>
 						<div>
@@ -145,7 +147,7 @@ export default function HomePage() {
 								<div className="p-6 bg-blue-50 rounded-xl">
 									<h3 className="font-semibold text-xl mb-3 text-blue-900">Mission</h3>
 									<p className="text-gray-700">
-										To deliver qualitative, timely, and value-based services; realize clients' goals and aspirations through the use of target-oriented professionals and innovative technology.
+										To deliver qualitative, timely, and value-based services; realize clients&apos; goals and aspirations through the use of target-oriented professionals and innovative technology.
 									</p>
 								</div>
 								<div className="p-6 bg-green-50 rounded-xl">
@@ -180,9 +182,10 @@ export default function HomePage() {
 								<div className="relative h-64">
 									<Image
 										src={initiative.image}
-										alt={initiative.title}
+										alt=''
 										fill
 										className="object-cover group-hover:scale-105 transition-transform duration-300"
+										// onError={(e) => { e.currentTarget.src = '/images/shared/placeholder.jpg'; }}
 									/>
 									<div className={`absolute top-4 left-4 px-3 py-1 rounded-full text-white text-sm font-medium ${initiative.color}`}>
 										{initiative.title}
@@ -224,11 +227,12 @@ export default function HomePage() {
 						</div>
 						<div>
 							<Image
-								src="/images/shared/team-group-photo.jpg"
-								alt="Joint Heirs Limited Team"
+								src="/images/shared/placeholder.jpg"
+								alt=""
 								width={600}
 								height={400}
 								className="rounded-2xl shadow-lg"
+								// onError={(e) => { e.currentTarget.src = '/images/shared/placeholder.jpg'; }}
 							/>
 						</div>
 					</div>
@@ -249,10 +253,11 @@ export default function HomePage() {
 							<div key={partner.name} className="text-center">
 								<Image
 									src={partner.logo}
-									alt={partner.name}
+									alt=''
 									width={120}
 									height={80}
 									className="mx-auto grayscale-0 hover:bg-grayscale-0 transition-all duration-300"
+									// onError={(e) => { e.currentTarget.src = '/images/shared/placeholder.jpg'; }}
 								/>
 							</div>
 						))}
@@ -261,43 +266,43 @@ export default function HomePage() {
 			</section>
 
 			{/* Registration Session */}
-			<section className="py-10 md:py-16 bg-gradient-to-r from-green-50 to-blue-50">
+				<section className="py-10 md:py-16 bg-gradient-to-r from-blue-50 to-green-50">
 				<div className="container mx-auto px-4">
 					<div className="flex flex-col md:flex-row items-center justify-between gap-8 rounded-2xl shadow-lg bg-white p-8 md:p-12">
-						<div className="flex-1">
-							<h2 className="font-heading text-2xl md:text-3xl lg:text-4xl mb-3 text-blue-900">
-								Ongoing Registration: 2025 Youth Empowerment Program
-							</h2>
-							<p className="text-gray-700 text-lg mb-4">
-								Join our flagship initiative designed to empower Nigerian youth and women with skills, mentorship, and access to global opportunities. Limited slots available!
-							</p>
-							<div className="flex items-center gap-2 mb-4">
-								<span className="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-semibold text-sm">
-									Registration Deadline:
-								</span>
-								<span className="font-bold text-blue-900 text-base">
-									August 31, 2025
-								</span>
-							</div>
-						</div>
-						<div className="flex-shrink-0">
-							<Link
-								href="/register"
-								className="btn-primary text-lg px-8 py-4 rounded-xl shadow-md transition hover:bg-blue-700"
-							>
-								Register Now
-							</Link>
+					<div className="flex-1">
+						<h2 className="font-heading text-2xl md:text-3xl lg:text-4xl mb-3 text-blue-900">
+						Ongoing Registration: GEMAEXPO L2G 2025
+						</h2>
+						<p className="text-gray-700 text-lg mb-4">
+						Register now for the Global Export & Market Access Expo. Showcase your products, connect with buyers, and access training. Upload your product catalogue images to be featured!
+						</p>
+						<div className="flex items-center gap-2 mb-4">
+						<span className="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-semibold text-sm">
+							Registration Deadline:
+						</span>
+						<span className="font-bold text-blue-900 text-base">
+							to be announced.
+						</span>
 						</div>
 					</div>
+					<div className="flex-shrink-0">
+						<Link
+						href="/register"
+						className="btn-primary text-lg px-8 py-4 rounded-xl shadow-md transition hover:bg-blue-700"
+						>
+						Register for GEMAEXPO
+						</Link>
+					</div>
+					</div>
 				</div>
-			</section>
+				</section>
 
 			{/* CTA Section */}
 			<section className="py-16 bg-gradient-to-r from-blue-600 to-green-600 text-white">
 				<div className="container mx-auto px-4 text-center">
 					<h2 className="font-heading text-3xl lg:text-4xl mb-6">Ready to Join Our Mission?</h2>
 					<p className="text-xl mb-8 max-w-2xl mx-auto">
-						Whether you're an entrepreneur, youth, woman, or organization, there's a place for you in our initiatives. Let's build Nigeria's future together.
+						Whether you&apos;re an entrepreneur, youth, woman, or organization, there&apos;s a place for you in our initiatives. Let&apos;s build Nigeria&apos;s future together.
 					</p>
 					<div className="flex flex-col sm:flex-row gap-4 justify-center">
 						<Link href="/contact" className="btn-secondary text-lg px-8 py-4">

@@ -17,7 +17,14 @@ export default function GemaexpoPage() {
             </div>
           </div>
           <div className="flex-1 flex justify-center">
-            <Image src="/images/initiatives/gemaexpo/gemaexpo-hero-banner.jpg" alt="GEMAEXPO" width={400} height={300} className="rounded-2xl shadow-lg" />
+            <Image
+              src="/images/initiatives/gemaexpo/gemaexpo-hero-banner.jpg"
+              alt="GEMAEXPO"
+              width={400}
+              height={300}
+              className="rounded-2xl shadow-lg"
+              onError={(e) => { e.currentTarget.src = '/images/shared/placeholder.jpg'; }}
+            />
           </div>
         </div>
       </section>

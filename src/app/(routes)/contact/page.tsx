@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Metadata } from 'next';
+// import { Metadata } from 'next';
 import Image from 'next/image';
 import { 
   MapPin, 
@@ -102,7 +102,7 @@ export default function ContactPage() {
         message: ''
       });
     } catch (error) {
-      setSubmitStatus('error');
+      setSubmitStatus(error instanceof Error ? 'error' : 'error');
     } finally {
       setIsSubmitting(false);
     }
@@ -119,7 +119,7 @@ export default function ContactPage() {
               Get in Touch
             </h1>
             <p className="text-xl lg:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto">
-              Ready to join our mission? Whether you're interested in our initiatives, seeking partnership opportunities, or have questions, we'd love to hear from you.
+              Ready to join our mission? Whether you&apos;re interested in our initiatives, seeking partnership opportunities, or have questions, we&apos;d love to hear from you.
             </p>
           </div>
         </div>
@@ -158,7 +158,7 @@ export default function ContactPage() {
             <div>
               <h2 className="font-heading text-3xl lg:text-4xl mb-6">Send Us a Message</h2>
               <p className="text-gray-600 mb-8">
-                Fill out the form below and we'll get back to you within 24 hours. All fields marked with * are required.
+                Fill out the form below and we&apos;ll get back to you within 24 hours. All fields marked with * are required.
               </p>
 
               {submitStatus === 'success' && (
@@ -166,7 +166,7 @@ export default function ContactPage() {
                   <CheckCircle className="h-5 w-5 text-green-600" />
                   <div>
                     <p className="text-green-800 font-medium">Message sent successfully!</p>
-                    <p className="text-green-700 text-sm">We'll get back to you within 24 hours.</p>
+                    <p className="text-green-700 text-sm">We&apos;ll get back to you within 24 hours.</p>
                   </div>
                 </div>
               )}

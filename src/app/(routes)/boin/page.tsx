@@ -5,13 +5,13 @@ import {
   Sprout, 
   MapPin, 
   Users, 
-  Target, 
+  // Target, 
   TrendingUp, 
-  Award,
+  // Award,
   ArrowRight,
   CheckCircle,
   Globe,
-  BookOpen,
+  // BookOpen,
   Briefcase,
   Factory
 } from 'lucide-react';
@@ -140,7 +140,7 @@ export default function BoinPage() {
           <div className="text-center mb-12">
             <h2 className="font-heading text-3xl lg:text-4xl mb-4">Our 5-Year Impact Goals</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Ambitious targets for transforming Nigeria's agricultural sector and reducing oil dependency through strategic interventions.
+              Ambitious targets for transforming Nigeria&apos;s agricultural sector and reducing oil dependency through strategic interventions.
             </p>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
@@ -173,10 +173,10 @@ export default function BoinPage() {
               <h2 className="font-heading text-3xl lg:text-4xl mb-6">Why Beyond Oil Initiative?</h2>
               <div className="space-y-6">
                 <p className="text-lg text-gray-700">
-                  Nigeria's economy has long depended on oil revenues, making it vulnerable to global price fluctuations. BOIN represents a strategic shift towards economic diversification through agriculture and indigenous product development.
+                  Nigeria&apos;s economy has long depended on oil revenues, making it vulnerable to global price fluctuations. BOIN represents a strategic shift towards economic diversification through agriculture and indigenous product development.
                 </p>
                 <div className="grid md:grid-cols-2 gap-6">
-                  {focusAreas.map((area, index) => (
+                  {focusAreas.map((area) => (
                     <div key={area.title} className="flex items-start gap-3">
                       <div className={`w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center ${area.color}`}>
                         <area.icon className="h-5 w-5" />
@@ -293,7 +293,7 @@ export default function BoinPage() {
           <div className="text-center mb-12">
             <h2 className="font-heading text-3xl lg:text-4xl mb-4">How to Get Involved</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Multiple ways to participate in BOIN and contribute to Nigeria's economic transformation.
+              Multiple ways to participate in BOIN and contribute to Nigeria&apos;s economic transformation.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -399,3 +399,5 @@ export default function BoinPage() {
     </div>
   );
 }
+
+

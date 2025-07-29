@@ -14,6 +14,16 @@ export default function SoniPage() {
               <Link href="#" className="btn-secondary px-6 py-3">Sponsor a Honoree</Link>
             </div>
           </div>
+          <div className="flex-1">
+            {/* <Image
+              src="/images/initiatives/soni/soni-hero-innovation.jpg"
+              alt="SONI"
+              width={400}
+              height={300}
+              className="rounded-2xl shadow-lg"
+              // onError={(e) => { e.currentTarget.src = '/images/shared/placeholder.jpg'; }}
+            /> */}
+          </div>
         </div>
       </section>
       <section className="py-16 container mx-auto px-4">

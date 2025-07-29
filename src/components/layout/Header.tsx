@@ -35,7 +35,7 @@ export default function Header() {
 							<span className="sr-only">Joint Heirs Limited</span>
 							<Image
 								className="h-10 w-auto"
-								src="/images/shared/joint-heirs-logo.svg"
+								src="/images/shared/placeholder.jpg"
 								alt="Joint Heirs Limited"
 								width={120}
 								height={40}
@@ -126,7 +126,7 @@ export default function Header() {
 									<span className="sr-only">Joint Heirs Limited</span>
 									<Image
 										className="h-8 w-auto"
-										src="/images/shared/joint-heirs-logo.svg"
+										src="/images/shared/placeholder.jpg"
 										alt="Joint Heirs Limited"
 										width={100}
 										height={32}
