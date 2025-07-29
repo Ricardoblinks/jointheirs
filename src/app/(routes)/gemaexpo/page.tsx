@@ -159,7 +159,7 @@ export default function GemaexpoPage() {
                   <strong>Global Export & Market Access Expo (GEMAEXPO L2G)</strong> is our flagship annual event that has been promoting Micro, Small, and Medium Enterprises (MSMEs) since 2012.
                 </p>
                 <p>
-                  The "L2G" stands for <strong>Local to Global</strong>, representing our mission to bridge the gap between local entrepreneurs and global markets through strategic training, networking, and market access opportunities.
+                  The &quot;L2G&quot; stands for <strong>Local to Global</strong>, representing our mission to bridge the gap between local entrepreneurs and global markets through strategic training, networking, and market access opportunities.
                 </p>
                 <div className="bg-blue-50 p-6 rounded-xl">
                   <h3 className="font-semibold text-xl mb-3 text-blue-900">Our Focus Areas</h3>
@@ -245,7 +245,7 @@ export default function GemaexpoPage() {
           <div className="text-center mb-12">
             <h2 className="font-heading text-3xl lg:text-4xl mb-4">Participation Opportunities</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Choose how you'd like to be involved in GEMAEXPO L2G 2024. Each participation type offers unique benefits and opportunities for growth.
+              Choose how you&quot;d like to be involved in GEMAEXPO L2G 2024. Each participation type offers unique benefits and opportunities for growth.
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
@@ -286,7 +286,7 @@ export default function GemaexpoPage() {
           <div className="text-center mb-12">
             <h2 className="font-heading text-3xl lg:text-4xl mb-4">Past Events</h2>
             <p className="text-xl text-gray-600">
-              Celebrating our journey and the amazing entrepreneurs we've supported
+              Celebrating our journey and the amazing entrepreneurs we&quot;ve supported
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -373,7 +373,7 @@ export default function GemaexpoPage() {
         <div className="container mx-auto px-4 text-center">
           <h2 className="font-heading text-3xl lg:text-4xl mb-6">Ready to Join GEMAEXPO L2G 2024?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Don't miss this opportunity to connect with thousands of entrepreneurs, access new markets, and grow your business to the next level.
+            Don&quot;t miss this opportunity to connect with thousands of entrepreneurs, access new markets, and grow your business to the next level.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/contact" className="btn-secondary text-lg px-8 py-4">
