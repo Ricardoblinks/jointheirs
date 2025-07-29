@@ -45,7 +45,7 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-6">
               <Image
-                src="/images/shared/placeholder.jpg"
+                src="/images/shared/Jointheirslogo.jpg"
                 alt="Joint Heirs Limited"
                 width={150}
                 height={50}
