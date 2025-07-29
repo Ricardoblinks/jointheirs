@@ -7,8 +7,6 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizePackageImports: ['lucide-react'],
-    metadataBase: new URL('https://your-production-url.com'),
-
   },
   // Netlify deployment optimization
   output: 'standalone',
