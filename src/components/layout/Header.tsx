@@ -35,7 +35,7 @@ export default function Header() {
 							<span className="sr-only">Joint Heirs Limited</span>
 							<Image
 								className="h-10 w-auto"
-								src="/images/shared/placeholder.jpg"
+								src="/images/shared/Jointheirslogo.jpg"
 								alt="Joint Heirs Limited"
 								width={120}
 								height={40}
