@@ -110,7 +110,7 @@ export default function RegisterPage() {
         title: "Joint Heirs: GEMAEXPO L2G 2025",
         description: "Expo registration",
         logo:
-          "https://jointheir.netlify.app/_next/image?url=%2Fimages%2Fshared%2FJointheirslogo.jpg&w=128&q=75",
+          "https://jointheir.netlify.app/_next/image?url=%2Fimages%2Fshared%jointheirslogo.png&w=128&q=75",
       },
     });
   }

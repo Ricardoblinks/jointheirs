@@ -114,7 +114,7 @@ export default function ContactPage() {
       <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-green-800 text-white overflow-hidden">
         <div className="absolute inset-0 cultural-pattern opacity-10"></div>
         <div className="relative container mx-auto px-4 py-20 lg:py-32">
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto text-center py-5">
             <h1 className="font-heading text-4xl lg:text-6xl mb-6">
               Get in Touch
             </h1>

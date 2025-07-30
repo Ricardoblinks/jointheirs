@@ -6,11 +6,13 @@ import Link from 'next/link';
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen font-sans" style={{ fontFamily: 'Poppins, sans-serif' }}>
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-green-800 text-white overflow-hidden">
-        <div className="absolute inset-0 cultural-pattern opacity-10"></div>
-        <div className="relative container mx-auto px-4 py-20 lg:py-32">
+        <div className="absolute inset-0">
+          <Image src="/images/shared/landingpage-top.jpg" alt="About Hero" fill className="object-cover opacity-20" priority />
+        </div>
+        <div className="relative container mx-auto px-6 py-24 lg:py-40 text-center">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="font-heading text-4xl lg:text-6xl mb-6">About Joint Heirs Limited</h1>
             <p className="text-xl lg:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto">
@@ -21,9 +23,9 @@ export default function AboutPage() {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <Image
                 src="/images/shared/placeholder.jpg"

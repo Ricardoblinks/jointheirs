@@ -133,7 +133,7 @@ export default function HomePage() {
 					<div className="grid lg:grid-cols-2 gap-12 items-center">
 						<div>
 							<Image
-								src="/images/shared/placeholder.jpg"
+								src="/images/shared/officebuilding.jpg"
 								alt=""
 								width={600}
 								height={400}
@@ -227,7 +227,7 @@ export default function HomePage() {
 						</div>
 						<div>
 							<Image
-								src="/images/shared/placeholder.jpg"
+								src="/images/shared/ceo.jpg"
 								alt=""
 								width={600}
 								height={400}

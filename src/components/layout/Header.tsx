@@ -22,11 +22,13 @@ const navigation = [
 ];
 
 export default function Header() {
-	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-	const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  // Apply Poppins font globally to header
+  const poppinsFont = { fontFamily: 'Poppins, sans-serif' };
 
-	return (
-		<header className="bg-white shadow-sm sticky top-0 z-50">
+  return (
+	<header className="bg-white shadow-sm sticky top-0 z-50" style={poppinsFont}>
 			<nav className="container mx-auto px-4 sm:px-6 lg:px-8" aria-label="Global">
 				<div className="flex h-16 items-center justify-between">
 					{/* Logo */}
@@ -35,7 +37,7 @@ export default function Header() {
 							<span className="sr-only">Joint Heirs Limited</span>
 							<Image
 								className="h-10 w-auto"
-								src="/images/shared/Jointheirslogo.jpg"
+								src="/images/shared/jointheirslogo.png"
 								alt="Joint Heirs Limited"
 								width={120}
 								height={40}
@@ -58,54 +60,51 @@ export default function Header() {
 
 					{/* Desktop navigation */}
 					<div className="hidden lg:flex lg:gap-x-8">
-						{navigation.map((item) => (
-							<div key={item.name} className="relative">
-								{item.dropdown ? (
-									<div
-										className="relative"
-										onMouseEnter={() => setDropdownOpen(true)}
-										onMouseLeave={() => setDropdownOpen(false)}
-									>
-										<button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900 hover:text-blue-600">
-											{item.name}
-											<ChevronDown className="h-4 w-4" aria-hidden="true" />
-										</button>
+			{navigation.map((item) => (
+			  <div key={item.name} className="relative">
+				{item.dropdown ? (
+				  <div className="relative">
+					<button
+					  type="button"
+					  className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900 hover:text-blue-600"
+					  onClick={() => setDropdownOpen((open) => !open)}
+					  aria-expanded={dropdownOpen}
+					>
+					  {item.name}
+					  <ChevronDown className="h-4 w-4" aria-hidden="true" />
+					</button>
 
-										{dropdownOpen && (
-											<div
-												className="absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4"
-												onMouseEnter={() => setDropdownOpen(true)}
-												onMouseLeave={() => setDropdownOpen(false)}
-											>
-												<div className="w-96 shrink rounded-xl bg-white p-4 text-sm font-semibold leading-6 text-gray-900 shadow-lg ring-1 ring-gray-900/5">
-													{item.dropdown.map((dropdownItem) => (
-														<Link
-															key={dropdownItem.name}
-															href={dropdownItem.href}
-															className="block rounded-lg p-4 hover:bg-gray-50"
-														>
-															<div className="font-semibold text-gray-900">
-																{dropdownItem.name}
-															</div>
-															<div className="text-gray-600 text-xs mt-1">
-																{dropdownItem.description}
-															</div>
-														</Link>
-													))}
-												</div>
-											</div>
-										)}
-									</div>
-								) : (
-									<Link
-										href={item.href}
-										className="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-600"
-									>
-										{item.name}
-									</Link>
-								)}
-							</div>
-						))}
+					{dropdownOpen && (
+					  <div className="absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4">
+						<div className="w-96 shrink rounded-xl bg-white p-4 text-sm font-semibold leading-6 text-gray-900 shadow-lg ring-1 ring-gray-900/5">
+						  {item.dropdown.map((dropdownItem) => (
+							<Link
+							  key={dropdownItem.name}
+							  href={dropdownItem.href}
+							  className="block rounded-lg p-4 hover:bg-gray-50"
+							>
+							  <div className="font-semibold text-gray-900">
+								{dropdownItem.name}
+							  </div>
+							  <div className="text-gray-600 text-xs mt-1">
+								{dropdownItem.description}
+							  </div>
+							</Link>
+						  ))}
+						</div>
+					  </div>
+					)}
+				  </div>
+				) : (
+				  <Link
+					href={item.href}
+					className="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-600"
+				  >
+					{item.name}
+				  </Link>
+				)}
+			  </div>
+			))}
 					</div>
 
 					{/* CTA Button */}
@@ -126,7 +125,7 @@ export default function Header() {
 									<span className="sr-only">Joint Heirs Limited</span>
 									<Image
 										className="h-8 w-auto"
-										src="/images/shared/Jointheirslogo.jpg"
+										src="/images/shared/jointheirslogo.png"
 										alt="Joint Heirs Limited"
 										width={100}
 										height={32}
