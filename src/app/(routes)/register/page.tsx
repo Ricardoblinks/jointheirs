@@ -38,32 +38,32 @@ export default function RegisterPage() {
     // }
   
   // ✅ Define your makePayment function
-  function makePayment() {
-    // @ts-ignore
-    FlutterwaveCheckout({
-      public_key: "FLWPUBK-a9908918f6b11103587958a73a1a1564-X",
-      tx_ref: "titanic-48981487343MDI0NzMx",
-      amount: 100,
-      currency: "NGN",
-      payment_options: "card, mobilemoneyghana, ussd",
-      redirect_url: "https://jointheir.netlify.app/register?paymentstatus=success",
-      meta: {
-        // consumer_id: 23,
-        consumer_mac: "92a3-912ba-1192a",
-      },
-      customer: {
-        email,
-        phone_number: phone,
-        name,
-      },
-      customizations: {
-        title: "Joint Heirs Limited: GEMAEXPO L2G 2025",
-        description: "Registration for GEMAEXPO L2G 2025 initiative",
-        logo:
-          "https://jointheir.netlify.app/_next/image?url=%2Fimages%2Fshared%2FJointheirslogo.jpg&w=128&q=75",
-      },
-    });
-  }
+  // function makePayment() {
+  //   // @ts-ignore
+  //   FlutterwaveCheckout({
+  //     public_key: "FLWPUBK-a9908918f6b11103587958a73a1a1564-X",
+  //     tx_ref: "titanic-48981487343MDI0NzMx",
+  //     amount: 100,
+  //     currency: "NGN",
+  //     payment_options: "card, mobilemoneyghana, ussd",
+  //     redirect_url: "https://jointheir.netlify.app/register?paymentstatus=success",
+  //     meta: {
+  //       // consumer_id: 23,
+  //       consumer_mac: "92a3-912ba-1192a",
+  //     },
+  //     customer: {
+  //       email,
+  //       phone_number: phone,
+  //       name,
+  //     },
+  //     customizations: {
+  //       title: "Joint Heirs Limited: GEMAEXPO L2G 2025",
+  //       description: "Registration for GEMAEXPO L2G 2025 initiative",
+  //       logo:
+  //         "https://jointheir.netlify.app/_next/image?url=%2Fimages%2Fshared%2FJointheirslogo.jpg&w=128&q=75",
+  //     },
+  //   });
+  // }
 
     // upload to Cloudinary, return array of secure_urls
   async function uploadToCloudinary(): Promise<string[]> {
@@ -104,7 +104,7 @@ export default function RegisterPage() {
     setLoading(true);
 
     // kick off flutterwave
-    // @ts-ignore
+    // @ts-expect-error : nature of FlutterwaveCheckout unknown
     FlutterwaveCheckout({
       public_key: "FLWPUBK-a9908918f6b11103587958a73a1a1564-X",
       tx_ref: `expo-${Date.now()}`,
@@ -112,7 +112,7 @@ export default function RegisterPage() {
       currency: "NGN",
       payment_options: "card,mobilemoneyghana,ussd",
       // remove redirect_url so we stay here and use callback:
-      callback: async (paymentResult: any) => {
+      callback: async (paymentResult: Record<string, unknown>) => {
         if (paymentResult.status !== "successful") {
           setError("Payment not successful");
           setLoading(false);
@@ -124,9 +124,14 @@ export default function RegisterPage() {
           // 2. submit form
           await submitToFormspree(uploaded);
           setSuccess(true);
-        } catch (err: any) {
-          console.error(err);
-          setError(err.message);
+          } catch (err: unknown) {
+            if (err instanceof Error) {
+              console.error(err);
+              setError(err.message);
+            } else {
+              console.error(err);
+              setError("An unexpected error occurred.");
+            }
         } finally {
           setLoading(false);
         }
