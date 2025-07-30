@@ -1,22 +1,30 @@
 "use client";
-import Link from "next/link";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Script from "next/script";
-import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function RegisterPage() {
-  const [preview, setPreview] = useState<string[]>([]);
+  const router = useRouter();
+
+  // Form data state
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [name, setName] = useState("");
   const [organization, setOrganization] = useState("");
   const [product, setProduct] = useState("");
-  const [catalogue, setCatalogue] = useState<FileList | null>(null);
 
+  // Image state
+  const [catalogue, setCatalogue] = useState<FileList | null>(null);
+  const [preview, setPreview] = useState<string[]>([]);
+
+  // UI state
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Handle image selection
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
     if (!files || files.length === 0) {
@@ -24,124 +32,67 @@ export default function RegisterPage() {
       setPreview([]);
       return;
     }
-      setCatalogue(files);
-      const urls = Array.from(files).map((f) => URL.createObjectURL(f));
-      setPreview(urls);
-    }
+    setCatalogue(files);
+    setPreview(Array.from(files).map((f) => URL.createObjectURL(f)));
+  }
 
-    // if (files && files.length > 0) {
-    //   const urls = Array.from(files).map((file) => URL.createObjectURL(file));
-    //   setPreview(urls);
-      
-    // } else {
-    //   setPreview([]);
-    // }
-  
-  // ✅ Define your makePayment function
-  // function makePayment() {
-  //   // @ts-ignore
-  //   FlutterwaveCheckout({
-  //     public_key: "FLWPUBK-a9908918f6b11103587958a73a1a1564-X",
-  //     tx_ref: "titanic-48981487343MDI0NzMx",
-  //     amount: 100,
-  //     currency: "NGN",
-  //     payment_options: "card, mobilemoneyghana, ussd",
-  //     redirect_url: "https://jointheir.netlify.app/register?paymentstatus=success",
-  //     meta: {
-  //       // consumer_id: 23,
-  //       consumer_mac: "92a3-912ba-1192a",
-  //     },
-  //     customer: {
-  //       email,
-  //       phone_number: phone,
-  //       name,
-  //     },
-  //     customizations: {
-  //       title: "Joint Heirs Limited: GEMAEXPO L2G 2025",
-  //       description: "Registration for GEMAEXPO L2G 2025 initiative",
-  //       logo:
-  //         "https://jointheir.netlify.app/_next/image?url=%2Fimages%2Fshared%2FJointheirslogo.jpg&w=128&q=75",
-  //     },
-  //   });
-  // }
-
-    // upload to Cloudinary, return array of secure_urls
+  // Upload images to Cloudinary
   async function uploadToCloudinary(): Promise<string[]> {
     if (!catalogue) return [];
     const uploadPreset = "jointheir-form";
     const cloudName = "dpvvmocxs";
     const urls: string[] = [];
+
     for (const file of Array.from(catalogue)) {
       const fd = new FormData();
       fd.append("file", file);
       fd.append("upload_preset", uploadPreset);
+
       const res = await fetch(
         `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
         { method: "POST", body: fd }
       );
       const data = await res.json();
+
       if (data.secure_url) urls.push(data.secure_url);
       else throw new Error("Cloudinary upload failed");
     }
+
     return urls;
   }
 
-  // after cloudinary, submit to Formspree
+  // Submit to Formspree
   async function submitToFormspree(images: string[]) {
     const formspreeEndpoint = "https://formspree.io/f/xoqzrrbv";
     const payload = { name, email, phone, organization, product, images };
+
     const res = await fetch(formspreeEndpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    if (!res.ok) throw new Error("Formspree submission failed");
+
+    if (!res.ok) throw new Error("Form submission failed.");
   }
 
-    function handleSubmit(e: React.FormEvent) {
+  // Handle form submit: kick off Flutterwave
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
-    // kick off flutterwave
-    // @ts-expect-error : nature of FlutterwaveCheckout unknown
+    const base = window.location.origin + window.location.pathname;
+    const tx_ref = `expo-${Date.now()}`;
+    const successUrl = `${base}?payment=success&tx_ref=${tx_ref}`;
+
+    // @ts-expect-error: FlutterwaveCheckout injected by script
     FlutterwaveCheckout({
       public_key: "FLWPUBK-a9908918f6b11103587958a73a1a1564-X",
-      tx_ref: `expo-${Date.now()}`,
+      tx_ref,
       amount: 100,
       currency: "NGN",
       payment_options: "card,mobilemoneyghana,ussd",
-      // remove redirect_url so we stay here and use callback:
-      callback: async (paymentResult: Record<string, unknown>) => {
-        if (paymentResult.status !== "successful") {
-          setError("Payment not successful");
-          setLoading(false);
-          return;
-        }
-        try {
-          // 1. upload images
-          const uploaded = await uploadToCloudinary();
-          // 2. submit form
-          await submitToFormspree(uploaded);
-          setSuccess(true);
-          } catch (err: unknown) {
-            if (err instanceof Error) {
-              console.error(err);
-              setError(err.message);
-            } else {
-              console.error(err);
-              setError("An unexpected error occurred.");
-            }
-        } finally {
-          setLoading(false);
-        }
-      },
-      onclose: () => {
-        if (!success) {
-          setLoading(false);
-          setError("Payment window closed.");
-        }
-      },
+      redirect_url: successUrl,
       customer: { email, phone_number: phone, name },
       customizations: {
         title: "Joint Heirs: GEMAEXPO L2G 2025",
@@ -152,16 +103,38 @@ export default function RegisterPage() {
     });
   }
 
+  // Detect redirect after payment and continue uploads
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("payment") === "success") {
+      (async () => {
+        try {
+          setError(null);
+          setLoading(true);
+
+          const imgs = await uploadToCloudinary();
+          await submitToFormspree(imgs);
+
+          setSuccess(true);
+        } catch (err) {
+          console.error(err);
+          setError(err instanceof Error ? err.message : "An unexpected error occurred.");
+        } finally {
+          setLoading(false);
+          // remove query to prevent re-run
+          router.replace(window.location.pathname);
+        }
+      })();
+    }
+  }, []);
+
   if (success) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <h2 className="text-2xl text-green-600">
-          Registration Successful! 🎉
-        </h2>
+        <h2 className="text-2xl text-green-600">Registration Successful! 🎉</h2>
       </div>
     );
   }
-
 
   return (
     <>

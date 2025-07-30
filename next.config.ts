@@ -9,8 +9,8 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['lucide-react'],
   },
   // Netlify deployment optimization
-  // output: 'standalone',
-  output: 'export', // <-- Change this line
+  output: 'standalone',
+  // output: 'export', // <-- Change this line
   poweredByHeader: false,
   // Security headers
   async headers() {
