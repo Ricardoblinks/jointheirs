@@ -22,7 +22,7 @@ const inter = Inter({
 // });
 
 export const metadata: Metadata = {
-  // metadataBase: new URL('https://jointheir.netlify.app'),
+  metadataBase: new URL('https://jointheir.netlify.app'),
   title: {
     default: "Joint Heirs Limited - Investing in Your Future",
     template: "%s | Joint Heirs Limited"

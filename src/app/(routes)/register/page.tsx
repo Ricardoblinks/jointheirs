@@ -52,8 +52,19 @@ export default function RegisterPage() {
         `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
         { method: "POST", body: fd }
       );
-      const data = await res.json();
 
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error("Cloudinary HTTP error:", res.status, errText);
+        throw new Error(`Cloudinary upload failed with status ${res.status}`);
+      }
+
+      const data = await res.json();
+      if (data.error) {
+        console.error("Cloudinary response error:", data.error);
+        throw new Error(data.error.message || "Cloudinary upload error");
+      }
+      // Ensure we have a valid URL
       if (data.secure_url) urls.push(data.secure_url);
       else throw new Error("Cloudinary upload failed");
     }
@@ -61,9 +72,10 @@ export default function RegisterPage() {
     return urls;
   }
 
+  
   // Submit to Formspree
   async function submitToFormspree(images: string[]) {
-    const formspreeEndpoint = "https://formspree.io/f/xoqzrrbv";
+    const formspreeEndpoint = "https://formspree.io/f/meozzorw";
     const payload = { name, email, phone, organization, product, images };
 
     const res = await fetch(formspreeEndpoint, {
@@ -82,7 +94,7 @@ export default function RegisterPage() {
     setLoading(true);
 
     const base = window.location.origin + window.location.pathname;
-    const tx_ref = `expo-${Date.now()}`;
+    const tx_ref = `expo-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
     const successUrl = `${base}?payment=success&tx_ref=${tx_ref}`;
 
     // @ts-expect-error: FlutterwaveCheckout injected by script
@@ -143,6 +155,7 @@ export default function RegisterPage() {
         src="https://checkout.flutterwave.com/v3.js"
         strategy="beforeInteractive"
       />
+
 
       <div className="min-h-screen bg-gradient-to-r from-blue-50 to-green-50 flex items-center justify-center py-16 px-4">
         <div className="max-w-2xl w-full bg-white rounded-2xl shadow-2xl p-8 md:p-12">
