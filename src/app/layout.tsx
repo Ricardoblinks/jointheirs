@@ -77,7 +77,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${poppins.variable} ${inter.variable} antialiased bg-white text-gray-900 min-h-screen flex flex-col`}
+        className={`${poppins.variable} ${poppins.variable} antialiased bg-white text-gray-900 min-h-screen flex flex-col`}
       >
         <Header />
         <main className="flex-grow">

@@ -10,7 +10,7 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-green-800 text-white overflow-hidden">
         <div className="absolute inset-0">
-          <Image src="/images/shared/landingpage-top.jpg" alt="About Hero" fill className="object-cover opacity-20" priority />
+          <Image src="/images/shared/landingpage-top.jpg" alt="About Hero" fill className="object-cover opacity-30" priority />
         </div>
         <div className="relative container mx-auto px-6 py-24 lg:py-40 text-center">
           <div className="max-w-4xl mx-auto text-center">
@@ -28,7 +28,7 @@ export default function AboutPage() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <Image
-                src="/images/shared/placeholder.jpg"
+								src="/images/shared/officebuilding.jpg"
                 // src="/images/shared/company-building-exterior.jpg"
                 alt=""
                 width={600}
@@ -76,7 +76,8 @@ export default function AboutPage() {
             </div>
             <div>
               <Image
-                src="/images/shared/placeholder.jpg"
+                src="/images/shared/ceo.jpg"
+
                 // src="/images/shared/adanma-ogumka-ekeji-profile.jpg"
                 alt="Adanma Ogumka-Ekeji"
                 width={300}

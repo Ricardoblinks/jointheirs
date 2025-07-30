@@ -43,7 +43,7 @@ export default function SuperGuidesPage() {
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-pink-900 via-blue-800 to-green-800 text-white overflow-hidden">
         <div className="absolute inset-0">
-          <Image src="/images/initiatives/super-guides/women-empowerment-hero.jpg" alt="Super Guides Hero" fill className="object-cover opacity-20" priority />
+          <Image src="/images/initiatives/super-guides/womenandyouth.jpg" alt="Super Guides Hero" fill className="object-cover opacity-20" priority />
         </div>
         <div className="relative container mx-auto px-6 py-24 lg:py-40 text-center">
         <div className="max-w-4xl mx-auto text-center py-5">
@@ -101,7 +101,8 @@ export default function SuperGuidesPage() {
           <div className="grid md:grid-cols-3 gap-10">
             {programs.map((program, idx) => (
               <div key={program.title} className="card overflow-hidden bg-white rounded-xl shadow">
-                <Image src={program.image} alt={program.title} width={400} height={200} className="object-cover w-full h-48" />
+                <Image src='/images/shared/placeholder.jpg' alt={program.title} width={400} height={200} className="object-cover w-full h-48" />
+                {/* <Image src={program.image} alt={program.title} width={400} height={200} className="object-cover w-full h-48" /> */}
                 <div className="p-6">
                   <h3 className="font-heading text-xl mb-2 font-semibold">{program.title}</h3>
                   <p className="text-gray-600">{program.description}</p>
@@ -119,7 +120,8 @@ export default function SuperGuidesPage() {
           <div className="grid md:grid-cols-2 gap-10">
             {stories.map((story, idx) => (
               <div key={story.name} className="card p-8 bg-white rounded-xl shadow flex flex-col items-center">
-                <Image src={story.image} alt={story.name} width={100} height={100} className="rounded-full mb-4" />
+                <Image src='/images/shared/placeholder.jpg' alt={story.name} width={100} height={100} className="rounded-full mb-4" />
+                {/* <Image src={story.image} alt={story.name} width={100} height={100} className="rounded-full mb-4" /> */}
                 <h3 className="font-semibold text-lg mb-2">{story.name}</h3>
                 <p className="text-gray-600 text-center">{story.story}</p>
               </div>
@@ -138,8 +140,8 @@ export default function SuperGuidesPage() {
             ))}
           </div>
           <div className="flex flex-wrap gap-8 justify-center items-center">
-            <Image src="/images/initiatives/super-guides/flyer.jpg" alt="Flyer" width={200} height={120} className="rounded-xl shadow" />
-            <Image src="/images/initiatives/super-guides/event-photo.jpg" alt="Event" width={200} height={120} className="rounded-xl shadow" />
+            <Image src="/images/shared/placeholder.jpg" alt="Flyer" width={200} height={120} className="rounded-xl shadow" />
+            <Image src="/images/shared/placeholder.jpg" alt="Event" width={200} height={120} className="rounded-xl shadow" />
           </div>
         </div>
       </section>

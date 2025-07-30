@@ -39,7 +39,7 @@ export default function SoniPage() {
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-green-800 text-white overflow-hidden">
         <div className="absolute inset-0">
-          <Image src="/images/initiatives/soni/soni-hero-innovation.jpg" alt="SONI Hero" fill className="object-cover opacity-20" priority />
+          <Image src="/images/initiatives/soni/soni-hero-innovation.jpeg" alt="SONI Hero" fill className="object-cover opacity-20" priority />
         </div>
         <div className="relative container mx-auto px-6 py-24 lg:py-40 text-center">
                     <div className="max-w-4xl mx-auto text-center py-5">
@@ -124,9 +124,9 @@ export default function SoniPage() {
           <h2 className="font-heading text-3xl lg:text-4xl mb-8 font-bold text-blue-900">Nominate or Partner with SONI</h2>
           <p className="text-lg mb-6">Email: <a href="mailto:adanma33@gmail.com" className="text-blue-600">adanma33@gmail.com</a> | Phone: <a href="tel:+2348173630110" className="text-blue-600">+234 8173630110</a></p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link href="/contact" className="btn-primary text-lg px-10 py-5 rounded-xl font-semibold shadow-lg">Nominate Initiative</Link>
-            <Link href="/contact" className="btn-secondary text-lg px-10 py-5 rounded-xl font-semibold shadow-lg">Partner with SONI</Link>
-            <Link href="/contact" className="btn-primary text-lg px-10 py-5 rounded-xl font-semibold shadow-lg">Sponsor a Honoree</Link>
+            <Link href="#" className="btn-primary text-lg px-10 py-5 rounded-xl font-semibold shadow-lg">Nominate Initiative</Link>
+            <Link href="#" className="btn-secondary text-lg px-10 py-5 rounded-xl font-semibold shadow-lg">Partner with SONI</Link>
+            <Link href="#" className="btn-primary text-lg px-10 py-5 rounded-xl font-semibold shadow-lg">Sponsor a Honoree</Link>
           </div>
         </div>
       </section>

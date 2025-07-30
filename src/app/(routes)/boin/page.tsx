@@ -36,7 +36,7 @@ const programs = [
   {
     title: 'National Booth Camps',
     description: 'Intensive training programs focused on product development, quality enhancement, and market readiness.',
-    image: '/images/initiatives/boin/agribusiness-training-field.jpg',
+    image: '/images/shared/placeholder.jpg',
     benefits: [
       'Hands-on training',
       'Best practices demonstration',
@@ -104,7 +104,7 @@ export default function BoinPage() {
       <section className="relative bg-gradient-to-br from-green-900 via-green-800 to-blue-800 text-white overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/initiatives/boin/boin-hero-agriculture.jpg"
+            src="/images/initiatives/boin/boin-hero-agriculture.png"
             alt="BOIN Agriculture Focus"
             fill
             className="object-cover opacity-20"
@@ -193,7 +193,8 @@ export default function BoinPage() {
             </div>
             <div>
               <Image
-                src="/images/initiatives/boin/indigenous-products-display.jpg"
+                src="/images/shared/placeholder.jpg"
+                // src="/images/initiatives/boin/indigenous-products-display.jpg"
                 alt="Indigenous Products Display"
                 width={600}
                 height={400}
@@ -258,7 +259,8 @@ export default function BoinPage() {
               >
                 <div className="relative h-64">
                   <Image
-                    src={program.image}
+                    src='/images/shared/placeholder.jpg'
+                    // src={program.image}
                     alt={program.title}
                     fill
                     className="object-cover"
@@ -350,7 +352,8 @@ export default function BoinPage() {
           <div className="grid md:grid-cols-2 gap-10">
             <div className="card p-8 bg-white rounded-xl shadow">
               <Image
-                src="/images/initiatives/boin/farmers-capacity-building.jpg"
+                src="/images/shared/placeholder.jpg"
+                // src="/images/initiatives/boin/farmers-capacity-building.jpg"
                 alt="Farmer Success Story"
                 width={400}
                 height={200}
@@ -364,7 +367,8 @@ export default function BoinPage() {
             </div>
             <div className="card p-8 bg-white rounded-xl shadow">
               <Image
-                src="/images/initiatives/boin/value-chain-processing.jpg"
+                src="/images/shared/placeholder.jpg"
+                // src="/images/initiatives/boin/value-chain-processing.jpg"
                 alt="Processing Success Story"
                 width={400}
                 height={200}

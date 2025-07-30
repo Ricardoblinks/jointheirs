@@ -190,7 +190,8 @@ export default function GemaexpoPage() {
             </div>
             <div>
               <Image
-                src="/images/initiatives/gemaexpo/market-access-workshop.jpg"
+                src="/images/shared/placeholder.jpg"
+                // src="/images/initiatives/gemaexpo/market-access-workshop.jpg"
                 alt="Market Access Workshop"
                 width={600}
                 height={400}
@@ -285,7 +286,7 @@ export default function GemaexpoPage() {
       </section>
 
       {/* Past Events */}
-      <section className="py-20 bg-gray-50">
+      {/* <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="font-heading text-4xl lg:text-5xl mb-6 font-bold text-blue-900">Past Events</h2>
@@ -328,7 +329,7 @@ export default function GemaexpoPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Location & Venue */}
       <section className="py-20">
@@ -361,7 +362,8 @@ export default function GemaexpoPage() {
             </div>
             <div>
               <Image
-                src="/images/initiatives/gemaexpo/trade-show-displays.jpg"
+                src="/images/shared/placeholder.jpg"
+                // src="/images/initiatives/gemaexpo/trade-show-displays.jpg"
                 alt="GEMAEXPO Trade Show Displays"
                 width={600}
                 height={400}

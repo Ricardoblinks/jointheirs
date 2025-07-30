@@ -31,7 +31,7 @@ const initiatives = [
 		title: 'Super Guides Empowerment',
 		subtitle: 'Women & Youth Development',
 		description: 'Equipping women and youth with skills, tools, and mentorship for economic self-reliance.',
-		image: '/images/initiatives/super-guides/women-empowerment-hero.jpg',
+		image: '/images/initiatives/super-guides/womenandyouth.jpg',
 		href: '/super-guides',
 		color: 'bg-purple-600',
 	},
@@ -205,6 +205,39 @@ export default function HomePage() {
 				</div>
 			</section>
 
+			{/* Registration Session */}
+				<section className="py-10 md:py-16 bg-gradient-to-r from-blue-50 to-green-50">
+				<div className="container mx-auto px-4">
+					<div className="flex flex-col md:flex-row items-center justify-between gap-8 rounded-2xl shadow-lg bg-white p-8 md:p-12">
+					<div className="flex-1">
+						<h2 className="font-heading text-2xl md:text-3xl lg:text-4xl mb-3 text-blue-900">
+						Ongoing Registration: GEMAEXPO L2G 2025
+						</h2>
+						<p className="text-gray-700 text-lg mb-4">
+						Register now for the Global Export & Market Access Expo. Showcase your products, connect with buyers, and access training. Upload your product catalogue images to be featured!
+						</p>
+						<div className="flex items-center gap-2 mb-4">
+						<span className="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-semibold text-sm">
+							Registration Deadline:
+						</span>
+						<span className="font-bold text-blue-900 text-base">
+							to be announced.
+						</span>
+						</div>
+					</div>
+					<div className="flex-shrink-0">
+						<Link
+						href="/register"
+						className="btn-primary text-lg px-8 py-4 rounded-xl shadow-md transition hover:bg-blue-700"
+						>
+						Register for GEMAEXPO
+						</Link>
+					</div>
+					</div>
+				</div>
+				</section>
+
+
 			{/* Leadership Highlight */}
 			<section className="py-16">
 				<div className="container mx-auto px-4">
@@ -265,37 +298,6 @@ export default function HomePage() {
 				</div>
 			</section>
 
-			{/* Registration Session */}
-				<section className="py-10 md:py-16 bg-gradient-to-r from-blue-50 to-green-50">
-				<div className="container mx-auto px-4">
-					<div className="flex flex-col md:flex-row items-center justify-between gap-8 rounded-2xl shadow-lg bg-white p-8 md:p-12">
-					<div className="flex-1">
-						<h2 className="font-heading text-2xl md:text-3xl lg:text-4xl mb-3 text-blue-900">
-						Ongoing Registration: GEMAEXPO L2G 2025
-						</h2>
-						<p className="text-gray-700 text-lg mb-4">
-						Register now for the Global Export & Market Access Expo. Showcase your products, connect with buyers, and access training. Upload your product catalogue images to be featured!
-						</p>
-						<div className="flex items-center gap-2 mb-4">
-						<span className="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-semibold text-sm">
-							Registration Deadline:
-						</span>
-						<span className="font-bold text-blue-900 text-base">
-							to be announced.
-						</span>
-						</div>
-					</div>
-					<div className="flex-shrink-0">
-						<Link
-						href="/register"
-						className="btn-primary text-lg px-8 py-4 rounded-xl shadow-md transition hover:bg-blue-700"
-						>
-						Register for GEMAEXPO
-						</Link>
-					</div>
-					</div>
-				</div>
-				</section>
 
 			{/* CTA Section */}
 			<section className="py-16 bg-gradient-to-r from-blue-600 to-green-600 text-white">

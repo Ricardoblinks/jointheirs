@@ -309,7 +309,7 @@ export default function ContactPage() {
                 <h3 className="font-heading text-2xl mb-6">Meet Our Leadership</h3>
                 <div className="flex items-start gap-4">
                   <Image
-                    src="/images/shared/adanma-ogumka-ekeji-profile.jpg"
+    								src="/images/shared/ceo.jpg"
                     alt="Adanma Ogumka-Ekeji"
                     width={80}
                     height={80}
@@ -328,7 +328,7 @@ export default function ContactPage() {
               {/* Office Image */}
               <div className="card overflow-hidden">
                 <Image
-                  src="/images/shared/company-building-exterior.jpg"
+								src="/images/shared/officebuilding.jpg"
                   alt="Joint Heirs Limited Office"
                   width={600}
                   height={300}
@@ -366,7 +366,7 @@ export default function ContactPage() {
       </section>
 
       {/* Map Section (Placeholder) */}
-      <section className="py-16 bg-gray-50">
+      {/* <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-heading text-3xl lg:text-4xl mb-4">Find Us</h2>
@@ -384,7 +384,7 @@ export default function ContactPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

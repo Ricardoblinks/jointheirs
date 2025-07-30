@@ -42,14 +42,15 @@ export default function Footer() {
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Company Info */}
+          
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-6">
               <Image
                 src="/images/shared/jointheirslogo.png"
                 alt="Joint Heirs Limited"
-                width={150}
+                width={200}
                 height={50}
-                className="h-12 w-auto brightness-0 invert"
+                // className="h-12 w-auto brightness-0 invert"
               />
             </Link>
             <p className="text-gray-300 mb-6 text-lg">

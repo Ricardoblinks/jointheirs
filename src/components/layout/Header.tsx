@@ -67,7 +67,8 @@ export default function Header() {
 					<button
 					  type="button"
 					  className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900 hover:text-blue-600"
-					  onClick={() => setDropdownOpen((open) => !open)}
+					  onClick={() => setDropdownOpen(!dropdownOpen)}
+					//   onClick={() => setDropdownOpen((open) => !open)}
 					  aria-expanded={dropdownOpen}
 					>
 					  {item.name}
@@ -81,6 +82,7 @@ export default function Header() {
 							<Link
 							  key={dropdownItem.name}
 							  href={dropdownItem.href}
+							  onClick={() =>setDropdownOpen(!dropdownOpen)}
 							  className="block rounded-lg p-4 hover:bg-gray-50"
 							>
 							  <div className="font-semibold text-gray-900">
