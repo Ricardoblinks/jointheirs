@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Users, MapPin, Briefcase, Award, Target, Play, Pause, ChevronLeft, ChevronRight, ExternalLink, Calendar, Clock, Star } from 'lucide-react';
+import { ArrowRight, Users, MapPin, Briefcase, Award, Target, Play, Pause, ChevronLeft, ChevronRight, ExternalLink, Clock, Star } from 'lucide-react';
 
 const stats = [
 	{ icon: Briefcase, label: 'Jobs Created', value: '72,000+', color: 'text-emerald-600', description: 'Direct employment opportunities' },
@@ -301,7 +301,7 @@ export default function HomePage() {
 									GEMAEXPO L2G 2025
 								</h2>
 								<p className="text-lg text-slate-600 mb-6 leading-relaxed">
-									Join Africa's premier export expo. Connect with global buyers, showcase your products, and access comprehensive training programs designed to scale your business internationally.
+									Join Africa&apos;s premier export expo. Connect with global buyers, showcase your products, and access comprehensive training programs designed to scale your business internationally.
 								</p>
 								
 								<div className="flex flex-wrap gap-4 mb-6">
@@ -338,7 +338,7 @@ export default function HomePage() {
 					</div>
 					
 					<div className="grid md:grid-cols-2 gap-8">
-						{initiatives.map((initiative, index) => (
+						{initiatives.map((initiative) => (
 							<Link
 								key={initiative.title}
 								href={initiative.href}
@@ -398,7 +398,7 @@ export default function HomePage() {
 								</div>
 								
 								<blockquote className="text-xl lg:text-2xl text-slate-700 mb-8 leading-relaxed italic">
-									"{testimonials[currentTestimonial].content}"
+									&quot;{testimonials[currentTestimonial].content}&quot;
 								</blockquote>
 								
 								<div className="flex items-center justify-center space-x-4">
@@ -503,7 +503,7 @@ export default function HomePage() {
 					</div>
 					
 					<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center">
-						{partners.map((partner, index) => (
+						{partners.map((partner) => (
 							<div 
 								key={partner.name} 
 								className="group text-center p-4 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
@@ -526,7 +526,7 @@ export default function HomePage() {
 				<div className="container mx-auto px-4 text-center relative z-10">
 					<h2 className="text-4xl lg:text-5xl font-bold mb-8">Ready to Transform Nigeria Together?</h2>
 					<p className="text-xl lg:text-2xl mb-12 max-w-3xl mx-auto text-slate-300 leading-relaxed">
-						Whether you're an entrepreneur, youth, woman, or organization, there's a place for you in our mission to build a prosperous, diversified Nigerian economy.
+						Whether you&apos;re an entrepreneur, youth, woman, or organization, there&apos;s a place for you in our mission to build a prosperous, diversified Nigerian economy.
 					</p>
 					
 					<div className="flex flex-col sm:flex-row gap-6 justify-center max-w-2xl mx-auto">

@@ -14,7 +14,7 @@ import {
   Star
 } from 'lucide-react';
 import { Poppins } from 'next/font/google';
-import ImageSlider from '@/components/shared/ImageSlider';
+// import ImageSlider from '@/components/shared/ImageSlider';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -62,26 +62,26 @@ const participationTypes = [
   }
 ];
 
-const pastEvents = [
-  {
-    src: '/images/initiatives/gemaexpo/expo-hall-2023.jpg',
-    alt: 'GEMAEXPO 2023',
-    title: '2023 Edition: Digital Transformation',
-    description: '2,500+ attendees, 150+ exhibitors showcasing digital innovations'
-  },
-  {
-    src: '/images/initiatives/gemaexpo/training-session-2022.jpg',
-    alt: 'GEMAEXPO 2022',
-    title: '2022 Edition: Resilient Business',
-    description: 'Focused on building resilient business models in the post-pandemic era'
-  },
-  {
-    src: '/images/initiatives/gemaexpo/networking-2021.jpg',
-    alt: 'GEMAEXPO 2021',
-    title: '2021 Edition: Innovation Summit',
-    description: 'Bringing together innovators and industry leaders'
-  }
-];
+// const pastEvents = [
+//   {
+//     src: '/images/initiatives/gemaexpo/expo-hall-2023.jpg',
+//     alt: 'GEMAEXPO 2023',
+//     title: '2023 Edition: Digital Transformation',
+//     description: '2,500+ attendees, 150+ exhibitors showcasing digital innovations'
+//   },
+//   {
+//     src: '/images/initiatives/gemaexpo/training-session-2022.jpg',
+//     alt: 'GEMAEXPO 2022',
+//     title: '2022 Edition: Resilient Business',
+//     description: 'Focused on building resilient business models in the post-pandemic era'
+//   },
+//   {
+//     src: '/images/initiatives/gemaexpo/networking-2021.jpg',
+//     alt: 'GEMAEXPO 2021',
+//     title: '2021 Edition: Innovation Summit',
+//     description: 'Bringing together innovators and industry leaders'
+//   }
+// ];
 
 const impactStats = [
   { label: 'Years Active', value: '12+', icon: Calendar },

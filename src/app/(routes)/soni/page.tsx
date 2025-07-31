@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Award, Users, Globe, Star, ArrowRight, CheckCircle } from 'lucide-react';
+import { Award, Users, Globe, Star, ArrowRight } from 'lucide-react';
 import { Poppins } from 'next/font/google';
 
 const poppins = Poppins({
@@ -59,7 +59,7 @@ export default function SoniPage() {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-            {impactStats.map((stat, idx) => (
+            {impactStats.map((stat) => (
               <div key={stat.label} className="text-center bg-white rounded-xl shadow p-8">
                 <div className={`w-16 h-16 mx-auto mb-5 rounded-full bg-blue-600 text-white flex items-center justify-center shadow ${stat.color}`}>
                   <stat.icon className="h-8 w-8" />
@@ -76,7 +76,7 @@ export default function SoniPage() {
       <section id="categories" className="py-20">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-10">
-            {categories.map((cat, idx) => (
+            {categories.map((cat) => (
               <div key={cat.title} className="bg-white rounded-xl shadow p-8">
                 <h3 className="font-semibold text-lg mb-2">{cat.title}</h3>
                 <p className="text-gray-600 text-base">{cat.description}</p>
@@ -91,7 +91,7 @@ export default function SoniPage() {
         <div className="container mx-auto px-6">
           <h2 className="font-heading text-3xl lg:text-4xl mb-8 font-bold text-blue-900 text-center">Stories of Past Honorees</h2>
           <div className="grid md:grid-cols-2 gap-10">
-            {stories.map((story, idx) => (
+            {stories.map((story) => (
               <div key={story.name} className="card p-8 bg-white rounded-xl shadow flex flex-col items-center">
                 <Image src={story.image} alt={story.name} width={100} height={100} className="rounded-full mb-4" />
                 <h3 className="font-semibold text-lg mb-2">{story.name}</h3>

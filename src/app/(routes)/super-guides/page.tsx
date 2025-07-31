@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Users, Award, TrendingUp, CheckCircle, ArrowRight } from 'lucide-react';
+import { Users, Award, TrendingUp, ArrowRight } from 'lucide-react';
 import { Poppins } from 'next/font/google';
 
 const poppins = Poppins({
@@ -63,7 +63,7 @@ export default function SuperGuidesPage() {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
-            {impactStats.map((stat, idx) => (
+            {impactStats.map((stat) => (
               <div key={stat.label} className="text-center bg-white rounded-xl shadow p-8">
                 <div className={`w-16 h-16 mx-auto mb-5 rounded-full bg-pink-600 text-white flex items-center justify-center shadow ${stat.color}`}>
                   <stat.icon className="h-8 w-8" />
@@ -80,7 +80,7 @@ export default function SuperGuidesPage() {
       <section id="focus" className="py-20">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-10">
-            {focusAreas.map((area, idx) => (
+            {focusAreas.map((area) => (
               <div key={area.title} className="flex items-start gap-4 bg-white rounded-xl shadow p-8">
                 <div className={`w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center ${area.color}`}>
                   <area.icon className="h-6 w-6" />
@@ -99,7 +99,7 @@ export default function SuperGuidesPage() {
       <section id="programs" className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-10">
-            {programs.map((program, idx) => (
+            {programs.map((program) => (
               <div key={program.title} className="card overflow-hidden bg-white rounded-xl shadow">
                 <Image src='/images/shared/placeholder.jpg' alt={program.title} width={400} height={200} className="object-cover w-full h-48" />
                 {/* <Image src={program.image} alt={program.title} width={400} height={200} className="object-cover w-full h-48" /> */}
@@ -118,7 +118,7 @@ export default function SuperGuidesPage() {
         <div className="container mx-auto px-6">
           <h2 className="font-heading text-3xl lg:text-4xl mb-8 font-bold text-pink-900 text-center">Success Stories</h2>
           <div className="grid md:grid-cols-2 gap-10">
-            {stories.map((story, idx) => (
+            {stories.map((story) => (
               <div key={story.name} className="card p-8 bg-white rounded-xl shadow flex flex-col items-center">
                 <Image src='/images/shared/placeholder.jpg' alt={story.name} width={100} height={100} className="rounded-full mb-4" />
                 {/* <Image src={story.image} alt={story.name} width={100} height={100} className="rounded-full mb-4" /> */}

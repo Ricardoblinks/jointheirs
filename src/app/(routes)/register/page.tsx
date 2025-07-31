@@ -36,79 +36,6 @@ export default function RegisterPage() {
     setPreview(Array.from(files).map((f) => URL.createObjectURL(f)));
   }
 
-  // Upload images to Cloudinary
-  async function uploadToCloudinary(): Promise<string[]> {
-    if (!catalogue) return [];
-    
-    const uploadPreset = "jointheir-form";
-    const cloudName = "dpvvmocxs";
-    const urls: string[] = [];
-
-    for (const file of Array.from(catalogue)) {
-      try {
-        const fd = new FormData();
-        fd.append("file", file);
-        fd.append("upload_preset", uploadPreset);
-
-        console.log(`Uploading ${file.name}...`);
-
-        const res = await fetch(
-          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-          { method: "POST", body: fd }
-        );
-
-        const data = await res.json();
-        console.log('Upload response:', data);
-
-        if (!res.ok || data.error) {
-          throw new Error(data.error?.message || `Upload failed: ${res.status}`);
-        }
-
-        if (data.secure_url) {
-          urls.push(data.secure_url);
-        }
-      } catch (error) {
-        console.error(`Upload failed for ${file.name}:`, error);
-        throw error;
-      }
-    }
-
-    return urls;
-  }
-
-  // Submit to Formspree
-  async function submitToFormspree(images: string[]) {
-    const formspreeEndpoint = "https://formspree.io/f/meozzorw";
-    
-    const payload = {
-      name,
-      email,
-      phone,
-      organization,
-      product,
-      images: images.length > 0 ? images.join('\n') : 'No images uploaded'
-    };
-
-    console.log('Submitting payload:', payload);
-
-    const res = await fetch(formspreeEndpoint, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!res.ok) {
-      const errorText = await res.text();
-      console.error('Formspree error:', errorText);
-      throw new Error(`Form submission failed: ${res.status}`);
-    }
-
-    return await res.json();
-  }
-
   // Store form data in sessionStorage before payment
   function storeFormData() {
     const formData = { name, email, phone, organization, product };
@@ -131,40 +58,6 @@ export default function RegisterPage() {
       Promise.all(imagePromises).then(images => {
         sessionStorage.setItem('gemaexpo_images', JSON.stringify(images));
       });
-    }
-  }
-
-  // Restore form data after payment
-  function restoreFormData() {
-    const storedData = sessionStorage.getItem('gemaexpo_form_data');
-    if (storedData) {
-      const data = JSON.parse(storedData);
-      setName(data.name);
-      setEmail(data.email);
-      setPhone(data.phone);
-      setOrganization(data.organization);
-      setProduct(data.product);
-    }
-
-    const storedImages = sessionStorage.getItem('gemaexpo_images');
-    if (storedImages) {
-      const images = JSON.parse(storedImages);
-      setPreview(images.map((img: any) => img.data));
-      
-      // Convert base64 back to FileList for upload
-      const files = images.map((img: any) => {
-        const byteString = atob(img.data.split(',')[1]);
-        const ab = new ArrayBuffer(byteString.length);
-        const ia = new Uint8Array(ab);
-        for (let i = 0; i < byteString.length; i++) {
-          ia[i] = byteString.charCodeAt(i);
-        }
-        return new File([ab], img.name, { type: img.type });
-      });
-      
-      const dt = new DataTransfer();
-      files.forEach((file: File) => dt.items.add(file));
-      setCatalogue(dt.files);
     }
   }
 
@@ -219,7 +112,7 @@ export default function RegisterPage() {
           console.log('Restored data:', data);
 
           // Restore images
-          let imageUrls: string[] = [];
+          const imageUrls: string[] = [];
           if (storedImages) {
             const images = JSON.parse(storedImages);
             console.log('Restoring images:', images.length);
@@ -306,14 +199,14 @@ export default function RegisterPage() {
               </p>
               <p>
                 We have successfully received your registration details and product catalogue. 
-                Your payment has been processed and you're now officially registered for the expo.
+                Your payment has been processed and you&apos;re now officially registered for the expo.
               </p>
               <div className="bg-blue-50 p-4 rounded-lg mt-6">
                 <h3 className="font-semibold text-blue-900 mb-2">What happens next?</h3>
                 <ul className="text-left text-sm text-blue-800 space-y-1">
-                  <li>• You'll receive a confirmation email within 24 hours</li>
+                  <li>• You&apos;ll receive a confirmation email within 24 hours</li>
                   <li>• Our representative will contact you via phone to discuss your expo setup</li>
-                  <li>• We'll send you the expo schedule and venue details</li>
+                  <li>• We&apos;ll send you the expo schedule and venue details</li>
                   <li>• Your product catalogue will be reviewed and featured in our showcase</li>
                 </ul>
               </div>
@@ -351,7 +244,7 @@ export default function RegisterPage() {
                 <p>⏳ Finalizing registration details</p>
               </div>
               <p className="text-sm text-gray-500 mt-4">
-                This may take a few moments. Please don't close this page.
+                This may take a few moments. Please don&apos;t close this page.
               </p>
             </div>
           </div>
