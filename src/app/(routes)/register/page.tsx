@@ -39,52 +39,133 @@ export default function RegisterPage() {
   // Upload images to Cloudinary
   async function uploadToCloudinary(): Promise<string[]> {
     if (!catalogue) return [];
+    
     const uploadPreset = "jointheir-form";
     const cloudName = "dpvvmocxs";
     const urls: string[] = [];
 
     for (const file of Array.from(catalogue)) {
-      const fd = new FormData();
-      fd.append("file", file);
-      fd.append("upload_preset", uploadPreset);
+      try {
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("upload_preset", uploadPreset);
 
-      const res = await fetch(
-        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-        { method: "POST", body: fd }
-      );
+        console.log(`Uploading ${file.name}...`);
 
-      if (!res.ok) {
-        const errText = await res.text();
-        console.error("Cloudinary HTTP error:", res.status, errText);
-        throw new Error(`Cloudinary upload failed with status ${res.status}`);
+        const res = await fetch(
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+          { method: "POST", body: fd }
+        );
+
+        const data = await res.json();
+        console.log('Upload response:', data);
+
+        if (!res.ok || data.error) {
+          throw new Error(data.error?.message || `Upload failed: ${res.status}`);
+        }
+
+        if (data.secure_url) {
+          urls.push(data.secure_url);
+        }
+      } catch (error) {
+        console.error(`Upload failed for ${file.name}:`, error);
+        throw error;
       }
-
-      const data = await res.json();
-      if (data.error) {
-        console.error("Cloudinary response error:", data.error);
-        throw new Error(data.error.message || "Cloudinary upload error");
-      }
-      // Ensure we have a valid URL
-      if (data.secure_url) urls.push(data.secure_url);
-      else throw new Error("Cloudinary upload failed");
     }
 
     return urls;
   }
 
-  
   // Submit to Formspree
   async function submitToFormspree(images: string[]) {
     const formspreeEndpoint = "https://formspree.io/f/meozzorw";
-    const payload = { name, email, phone, organization, product, images };
+    
+    const payload = {
+      name,
+      email,
+      phone,
+      organization,
+      product,
+      images: images.length > 0 ? images.join('\n') : 'No images uploaded'
+    };
+
+    console.log('Submitting payload:', payload);
 
     const res = await fetch(formspreeEndpoint, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
       body: JSON.stringify(payload),
     });
 
-    if (!res.ok) throw new Error("Form submission failed.");
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error('Formspree error:', errorText);
+      throw new Error(`Form submission failed: ${res.status}`);
+    }
+
+    return await res.json();
+  }
+
+  // Store form data in sessionStorage before payment
+  function storeFormData() {
+    const formData = { name, email, phone, organization, product };
+    sessionStorage.setItem('gemaexpo_form_data', JSON.stringify(formData));
+    
+    // Store image files as base64 for later upload
+    if (catalogue) {
+      const imagePromises = Array.from(catalogue).map(file => {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve({
+            name: file.name,
+            type: file.type,
+            data: reader.result
+          });
+          reader.readAsDataURL(file);
+        });
+      });
+      
+      Promise.all(imagePromises).then(images => {
+        sessionStorage.setItem('gemaexpo_images', JSON.stringify(images));
+      });
+    }
+  }
+
+  // Restore form data after payment
+  function restoreFormData() {
+    const storedData = sessionStorage.getItem('gemaexpo_form_data');
+    if (storedData) {
+      const data = JSON.parse(storedData);
+      setName(data.name);
+      setEmail(data.email);
+      setPhone(data.phone);
+      setOrganization(data.organization);
+      setProduct(data.product);
+    }
+
+    const storedImages = sessionStorage.getItem('gemaexpo_images');
+    if (storedImages) {
+      const images = JSON.parse(storedImages);
+      setPreview(images.map((img: any) => img.data));
+      
+      // Convert base64 back to FileList for upload
+      const files = images.map((img: any) => {
+        const byteString = atob(img.data.split(',')[1]);
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+          ia[i] = byteString.charCodeAt(i);
+        }
+        return new File([ab], img.name, { type: img.type });
+      });
+      
+      const dt = new DataTransfer();
+      files.forEach((file: File) => dt.items.add(file));
+      setCatalogue(dt.files);
+    }
   }
 
   // Handle form submit: kick off Flutterwave
@@ -92,6 +173,9 @@ export default function RegisterPage() {
     e.preventDefault();
     setError(null);
     setLoading(true);
+
+    // Store form data before payment
+    storeFormData();
 
     const base = window.location.origin + window.location.pathname;
     const tx_ref = `expo-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
@@ -109,13 +193,12 @@ export default function RegisterPage() {
       customizations: {
         title: "Joint Heirs: GEMAEXPO L2G 2025",
         description: "Expo registration",
-        logo:
-          "https://jointheir.netlify.app/_next/image?url=%2Fimages%2Fshared%jointheirslogo.png&w=128&q=75",
+        logo: "https://jointheir.netlify.app/_next/image?url=%2Fimages%2Fshared%jointheirslogo.png&w=128&q=75",
       },
     });
   }
 
-  // Detect redirect after payment and continue uploads
+  // Handle payment success and upload
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get("payment") === "success") {
@@ -124,45 +207,173 @@ export default function RegisterPage() {
           setError(null);
           setLoading(true);
 
-          const imgs = await uploadToCloudinary();
-          await submitToFormspree(imgs);
+          // Restore form data first
+          const storedData = sessionStorage.getItem('gemaexpo_form_data');
+          const storedImages = sessionStorage.getItem('gemaexpo_images');
+          
+          if (!storedData) {
+            throw new Error('Form data not found. Please try again.');
+          }
+
+          const data = JSON.parse(storedData);
+          console.log('Restored data:', data);
+
+          // Restore images
+          let imageUrls: string[] = [];
+          if (storedImages) {
+            const images = JSON.parse(storedImages);
+            console.log('Restoring images:', images.length);
+            
+            // Convert base64 back to files and upload
+            for (const img of images) {
+              try {
+                const response = await fetch(img.data);
+                const blob = await response.blob();
+                const file = new File([blob], img.name, { type: img.type });
+                
+                const fd = new FormData();
+                fd.append("file", file);
+                fd.append("upload_preset", "jointheir-form");
+
+                const res = await fetch(
+                  "https://api.cloudinary.com/v1_1/dpvvmocxs/image/upload",
+                  { method: "POST", body: fd }
+                );
+
+                const uploadData = await res.json();
+                if (uploadData.secure_url) {
+                  imageUrls.push(uploadData.secure_url);
+                }
+              } catch (uploadError) {
+                console.error('Image upload error:', uploadError);
+              }
+            }
+          }
+
+          // Submit to Formspree with restored data
+          const payload = {
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            organization: data.organization,
+            product: data.product,
+            images: imageUrls.length > 0 ? imageUrls.join(', ') : 'No images uploaded'
+          };
+
+          const res = await fetch("https://formspree.io/f/meozzorw", {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify(payload),
+          });
+
+          if (!res.ok) {
+            throw new Error(`Form submission failed: ${res.status}`);
+          }
+
+          // Clean up storage
+          sessionStorage.removeItem('gemaexpo_form_data');
+          sessionStorage.removeItem('gemaexpo_images');
 
           setSuccess(true);
         } catch (err) {
-          console.error(err);
+          console.error('Processing error:', err);
           setError(err instanceof Error ? err.message : "An unexpected error occurred.");
         } finally {
           setLoading(false);
-          // remove query to prevent re-run
           router.replace(window.location.pathname);
         }
       })();
     }
-  }, []);
+  }, [router]);
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <h2 className="text-2xl text-green-600">Registration Successful! 🎉</h2>
+      <div className="min-h-screen bg-gradient-to-r from-blue-50 to-green-50 flex items-center justify-center py-16 px-4">
+        <div className="max-w-2xl w-full bg-white rounded-2xl shadow-2xl p-8 md:p-12 text-center">
+          <div className="mb-6">
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h2 className="text-3xl font-bold text-green-600 mb-4">Registration Successful! 🎉</h2>
+            <div className="text-gray-700 space-y-3">
+              <p className="text-lg">
+                Thank you for registering for <strong>GEMAEXPO L2G 2025</strong>!
+              </p>
+              <p>
+                We have successfully received your registration details and product catalogue. 
+                Your payment has been processed and you're now officially registered for the expo.
+              </p>
+              <div className="bg-blue-50 p-4 rounded-lg mt-6">
+                <h3 className="font-semibold text-blue-900 mb-2">What happens next?</h3>
+                <ul className="text-left text-sm text-blue-800 space-y-1">
+                  <li>• You'll receive a confirmation email within 24 hours</li>
+                  <li>• Our representative will contact you via phone to discuss your expo setup</li>
+                  <li>• We'll send you the expo schedule and venue details</li>
+                  <li>• Your product catalogue will be reviewed and featured in our showcase</li>
+                </ul>
+              </div>
+              <p className="text-sm text-gray-600 mt-4">
+                For any immediate questions, please contact us at{" "}
+                <Link href="/contact" className="text-blue-600 hover:underline">
+                  our support page
+                </Link>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show processing state after payment
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-r from-blue-50 to-green-50 flex items-center justify-center py-16 px-4">
+        <div className="max-w-2xl w-full bg-white rounded-2xl shadow-2xl p-8 md:p-12 text-center">
+          <div className="mb-6">
+            <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="animate-spin w-10 h-10 text-blue-600" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </div>
+            <h2 className="text-2xl font-bold text-blue-900 mb-4">Processing Your Registration</h2>
+            <div className="text-gray-700 space-y-3">
+              <p>Please wait while we process your registration...</p>
+              <div className="space-y-2 text-sm">
+                <p>✓ Payment confirmed</p>
+                <p>⏳ Uploading product catalogue images</p>
+                <p>⏳ Finalizing registration details</p>
+              </div>
+              <p className="text-sm text-gray-500 mt-4">
+                This may take a few moments. Please don't close this page.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
     <>
-      {/* ✅ Load Flutterwave script */}
       <Script
         src="https://checkout.flutterwave.com/v3.js"
         strategy="beforeInteractive"
       />
-
 
       <div className="min-h-screen bg-gradient-to-r from-blue-50 to-green-50 flex items-center justify-center py-16 px-4">
         <div className="max-w-2xl w-full bg-white rounded-2xl shadow-2xl p-8 md:p-12">
           <h1 className="font-heading text-3xl md:text-4xl mb-4 text-blue-900 text-center">
             GEMAEXPO L2G 2025 Registration
           </h1>
-                {error && (
+          
+          {error && (
             <p className="text-red-600 mb-4 text-center">{error}</p>
           )}
 
@@ -171,28 +382,11 @@ export default function RegisterPage() {
             products, connect with buyers, and access training. Upload your product
             catalogue images to be featured!
           </p>
-          <form
-            className="space-y-6"
-            encType="multipart/form-data"
-            name="gemaexpo-registration"
-            method="POST"
-            data-netlify="true"
-            // onSubmit={(e) => {
-            //   e.preventDefault();
-            //   makePayment(); // Trigger Flutterwave payment
-            // }}
-            onSubmit={handleSubmit}
 
-            // onSubmit={(e) => {
-            //   e.preventDefault();
-            //   makePayment(); // ✅ Trigger payment on form submission
-            // }}
-          >
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid md:grid-cols-2 gap-6">
-                <input type="hidden" name="form-name" value="gemaexpo-registration" />
               <input
                 type="text"
-                name="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Full Name *"
@@ -201,7 +395,6 @@ export default function RegisterPage() {
               />
               <input
                 type="email"
-                name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email Address *"
@@ -209,10 +402,10 @@ export default function RegisterPage() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
+            
             <div className="grid md:grid-cols-2 gap-6">
               <input
                 type="tel"
-                name="phone"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="Phone Number *"
@@ -221,38 +414,52 @@ export default function RegisterPage() {
               />
               <input
                 type="text"
-                name="organization"
                 value={organization}
                 onChange={(e) => setOrganization(e.target.value)}
                 placeholder="Organization/Business"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
-            <input
-              type="text"
-              name="product"
+            
+            <select
               value={product}
               onChange={(e) => setProduct(e.target.value)}
-              placeholder="Product/Service *"
               required
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+            >
+              <option value="">Select Product/Service Category *</option>
+              <option value="Agriculture & Food Products">Agriculture & Food Products</option>
+              <option value="Textiles & Fashion">Textiles & Fashion</option>
+              <option value="Handicrafts & Arts">Handicrafts & Arts</option>
+              <option value="Technology & Electronics">Technology & Electronics</option>
+              <option value="Manufacturing & Industrial">Manufacturing & Industrial</option>
+              <option value="Beauty & Personal Care">Beauty & Personal Care</option>
+              <option value="Healthcare & Pharmaceuticals">Healthcare & Pharmaceuticals</option>
+              <option value="Education & Training Services">Education & Training Services</option>
+              <option value="Financial Services">Financial Services</option>
+              <option value="Logistics & Transportation">Logistics & Transportation</option>
+              <option value="Energy & Environment">Energy & Environment</option>
+              <option value="Construction & Real Estate">Construction & Real Estate</option>
+              <option value="Tourism & Hospitality">Tourism & Hospitality</option>
+              <option value="Other">Other</option>
+            </select>
+            
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Upload Product Catalogue Images *
               </label>
               <input
                 type="file"
-                name="catalogue"
                 accept="image/*"
                 multiple
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 onChange={handleImageChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
               <p className="text-xs text-gray-500 mt-1">
                 Accepted formats: JPG, PNG, GIF. You can upload multiple images.
               </p>
+              
               <div className="flex gap-4 mt-4 flex-wrap">
                 {preview.length > 0 ? (
                   preview.map((src, idx) => (
@@ -276,18 +483,13 @@ export default function RegisterPage() {
                 )}
               </div>
             </div>
+            
             <button
               type="submit"
-              className="btn-primary w-full py-3 text-lg rounded-lg flex items-center justify-center gap-2"
-            //   onClick={(e) => {
-            //   e.preventDefault();
-            //   makePayment(); // ✅ Trigger payment on form submission
-            // }}
               disabled={loading}
-
+              className="btn-primary w-full py-3 text-lg rounded-lg flex items-center justify-center gap-2"
             >
               {loading ? "Processing…" : "Proceed to Payment"}
-
             </button>
           </form>
 

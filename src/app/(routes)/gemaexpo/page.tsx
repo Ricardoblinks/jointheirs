@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { 
   Globe, 
   Users, 
-  Calendar, 
+  Calendar,
   MapPin, 
   TrendingUp, 
   Award, 
@@ -14,6 +14,7 @@ import {
   Star
 } from 'lucide-react';
 import { Poppins } from 'next/font/google';
+import ImageSlider from '@/components/shared/ImageSlider';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -63,25 +64,22 @@ const participationTypes = [
 
 const pastEvents = [
   {
-    year: '2023',
-    theme: 'Digital Transformation for MSMEs',
-    attendees: '2,500+',
-    exhibitors: '150+',
-    image: '/images/initiatives/gemaexpo/expo-hall-attendees.jpg'
+    src: '/images/initiatives/gemaexpo/expo-hall-2023.jpg',
+    alt: 'GEMAEXPO 2023',
+    title: '2023 Edition: Digital Transformation',
+    description: '2,500+ attendees, 150+ exhibitors showcasing digital innovations'
   },
   {
-    year: '2022',
-    theme: 'Resilient Business Models',
-    attendees: '2,200+',
-    exhibitors: '120+',
-    image: '/images/initiatives/gemaexpo/product-exhibition-stalls.jpg'
+    src: '/images/initiatives/gemaexpo/training-session-2022.jpg',
+    alt: 'GEMAEXPO 2022',
+    title: '2022 Edition: Resilient Business',
+    description: 'Focused on building resilient business models in the post-pandemic era'
   },
   {
-    year: '2021',
-    theme: 'Innovation in Challenging Times',
-    attendees: '1,800+',
-    exhibitors: '100+',
-    image: '/images/initiatives/gemaexpo/business-training-session.jpg'
+    src: '/images/initiatives/gemaexpo/networking-2021.jpg',
+    alt: 'GEMAEXPO 2021',
+    title: '2021 Edition: Innovation Summit',
+    description: 'Bringing together innovators and industry leaders'
   }
 ];
 
@@ -94,38 +92,59 @@ const impactStats = [
 
 export default function GemaexpoPage() {
   return (
-    <div className={`${poppins.variable} font-sans min-h-screen bg-white`} style={{ fontFamily: 'Poppins, sans-serif' }}>
+    <div className={`min-h-screen bg-white font-sans ${poppins.variable}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/images/initiatives/gemaexpo/gemaexpo-hero-banner.jpg"
-            alt="GEMAEXPO L2G Hero"
+            alt="GEMAEXPO L2G"
             fill
             className="object-cover opacity-20"
             priority
           />
         </div>
-        <div className="relative container mx-auto px-6 py-24 lg:py-40 text-center">
-          <div className="max-w-4xl mx-auto text-center py-5">
-            <h1 className="font-heading text-5xl lg:text-7xl mb-8 font-bold tracking-tight">
-              GEMAEXPO L2G
-            </h1>
-            <p className="text-2xl lg:text-3xl mb-10 text-blue-100 max-w-3xl mx-auto font-medium">
-              Bridging the gap between local entrepreneurs and global markets through annual expo, training programs, and strategic partnerships.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Link href="#register" className="btn-primary text-lg px-10 py-5 rounded-xl font-semibold shadow-lg">
-                Register for 2024 Expo
-                <ArrowRight className="ml-2 h-5 w-5 inline" />
-              </Link>
-              <Link href="#about" className="btn-secondary text-lg px-10 py-5 rounded-xl font-semibold shadow-lg">
-                Learn More
-              </Link>
-            </div>
+        <div className="relative container mx-auto px-6 py-24 lg:py-40  text-center">
+                    <div className="max-w-4xl mx-auto text-center py-5">
+
+          <h1 className="text-5xl lg:text-7xl font-bold mb-8">GEMAEXPO L2G</h1>
+          <p className="text-xl lg:text-2xl mb-6 text-blue-100">
+            Bridging Nigerian Businesses to Global Markets
+          </p>
+          <p className="text-lg mb-10 text-blue-200 max-w-3xl mx-auto">
+            Annual expo and training program connecting local entrepreneurs with international markets through exhibitions, training, and strategic partnerships.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <Link 
+              href="#registernow" 
+              className="btn-primary text-lg px-10 py-5 rounded-xl font-semibold shadow-lg hover:transform hover:-translate-y-1 transition-all duration-300"
+            >
+              Register for 2024 Expo
+              <ArrowRight className="ml-2 h-5 w-5 inline" />
+            </Link>
+            <Link 
+              href="#about" 
+              className="btn-secondary text-lg px-10 py-5 rounded-xl font-semibold shadow-lg hover:transform hover:-translate-y-1 transition-all duration-300"
+            >
+              Learn More
+            </Link>
+          </div>
           </div>
         </div>
       </section>
+
+      {/* Past Events Slider */}
+      {/* <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Past Editions</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Celebrating over a decade of connecting Nigerian enterprises to global markets
+            </p>
+          </div>
+          <ImageSlider images={pastEvents} />
+        </div>
+      </section> */}
 
       {/* Impact Stats */}
       <section className="py-20 bg-gray-50">
@@ -190,7 +209,15 @@ export default function GemaexpoPage() {
             </div>
             <div>
               <Image
-                src="/images/shared/placeholder.jpg"
+                src="/images/shared/Extras/11.jpg"
+                // src="/images/initiatives/gemaexpo/market-access-workshop.jpg"
+                alt="Market Access Workshop"
+                width={600}
+                height={400}
+                className="rounded-2xl shadow-xl object-cover mb-4"
+              />
+              <Image
+                src="/images/shared/Extras/12.jpg"
                 // src="/images/initiatives/gemaexpo/market-access-workshop.jpg"
                 alt="Market Access Workshop"
                 width={600}
@@ -276,7 +303,7 @@ export default function GemaexpoPage() {
                     ))}
                   </ul>
                 </div>
-                <Link href="/contact" className="btn-primary w-full text-center py-3 rounded-lg font-semibold">
+                <Link href="" className="btn-primary w-full text-center py-3 rounded-lg font-semibold">
                   {type.buttonText}
                 </Link>
               </div>
@@ -284,52 +311,6 @@ export default function GemaexpoPage() {
           </div>
         </div>
       </section>
-
-      {/* Past Events */}
-      {/* <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="font-heading text-4xl lg:text-5xl mb-6 font-bold text-blue-900">Past Events</h2>
-            <p className="text-2xl text-gray-600">
-              Celebrating our journey and the amazing entrepreneurs we&apos;ve supported
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-10">
-            {pastEvents.map((event, index) => (
-              <div
-                key={event.year}
-                className="card overflow-hidden bg-white rounded-2xl shadow-xl animate-scale-in"
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                <div className="relative h-56">
-                  <Image
-                    src={event.image}
-                    alt={`GEMAEXPO ${event.year}`}
-                    fill
-                    className="object-cover rounded-t-2xl"
-                  />
-                  <div className="absolute top-4 left-4 bg-blue-600 text-white px-4 py-2 rounded-full text-base font-medium shadow">
-                    {event.year}
-                  </div>
-                </div>
-                <div className="p-8">
-                  <h3 className="font-semibold text-xl mb-4">{event.theme}</h3>
-                  <div className="grid grid-cols-2 gap-6 text-lg">
-                    <div>
-                      <div className="text-2xl font-bold text-blue-600">{event.attendees}</div>
-                      <div className="text-gray-600">Attendees</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-green-600">{event.exhibitors}</div>
-                      <div className="text-gray-600">Exhibitors</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
 
       {/* Location & Venue */}
       <section className="py-20">
@@ -375,17 +356,17 @@ export default function GemaexpoPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+      <section id='registernow' className="py-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
         <div className="container mx-auto px-6 text-center">
           <h2 className="font-heading text-4xl lg:text-5xl mb-8 font-bold">Ready to Join GEMAEXPO L2G 2024?</h2>
           <p className="text-2xl mb-10 max-w-2xl mx-auto font-medium">
             Don&apos;t miss this opportunity to connect with thousands of entrepreneurs, access new markets, and grow your business to the next level.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link href="/contact" className="btn-secondary text-lg px-10 py-5 rounded-xl font-semibold shadow-lg">
+            <Link href="/register" className="btn-secondary text-lg px-10 py-5 rounded-xl font-semibold shadow-lg">
               Register Now
             </Link>
-            <Link href="/contact" className="btn-primary bg-white text-blue-600 hover:bg-gray-100 text-lg px-10 py-5 rounded-xl font-semibold shadow-lg">
+            <Link href="#" className="btn-primary bg-white text-blue-600 hover:bg-gray-100 text-lg px-10 py-5 rounded-xl font-semibold shadow-lg">
               Download Participation Guide
             </Link>
           </div>
