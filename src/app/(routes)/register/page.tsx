@@ -1,4 +1,14 @@
 "use client";
+
+export {}; // Make this file a module so global declarations work
+
+declare global {
+  interface Window {
+    tempFormData?: Record<string, unknown>;
+    tempImageFiles?: FileList | null;
+  }
+}
+
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
@@ -73,8 +83,17 @@ export default function RegisterPage() {
     return imageUrls;
   }
 
+  // Define a type for form data
+  interface FormData {
+    name: string;
+    email: string;
+    phone?: string;
+    organization?: string;
+    product?: string;
+  }
+
   // Submit form data to Formspree
-  async function submitToFormspree(formData: any, imageUrls: string[]) {
+  async function submitToFormspree(formData: FormData, imageUrls: string[]) {
     const payload = {
       name: formData.name,
       email: formData.email,
@@ -99,6 +118,12 @@ export default function RegisterPage() {
 
     return res.json();
   }
+
+  // Define the expected Flutterwave response type
+  type FlutterwaveResponse = {
+    status?: string;
+    [key: string]: unknown;
+  };
 
   // Handle form submit: kick off Flutterwave
   function handleSubmit(e: React.FormEvent) {
@@ -143,8 +168,9 @@ export default function RegisterPage() {
         onclose: function() {
           setLoading(false);
         },
-        callback: function(response: any) {
-          if (response.status === "successful") {
+        callback: function(response: unknown) {
+          const res = response as FlutterwaveResponse;
+          if (res.status === "successful") {
             // Handle successful payment
             window.location.href = successUrl;
           } else {
@@ -170,40 +196,48 @@ export default function RegisterPage() {
           setLoading(true);
 
           // Get stored form data
-          const storedData = (window as any).tempFormData;
-          const storedImages = (window as any).tempImageFiles;
+          const storedData = window.tempFormData;
+          const storedImages = window.tempImageFiles;
           
           if (!storedData) {
             throw new Error('Form data not found. Please try registering again.');
           }
 
-          console.log('Processing registration for:', storedData.name);
-
           // Upload images first
           let imageUrls: string[] = [];
           if (storedImages && storedImages.length > 0) {
-            console.log('Uploading images:', storedImages.length);
             imageUrls = await uploadImages(storedImages);
           }
 
-          // Submit to Formspree
-          await submitToFormspree(storedData, imageUrls);
+          // Safely convert storedData to FormData type
+          const safeFormData: FormData = {
+            name: typeof storedData.name === 'string' ? storedData.name : '',
+            email: typeof storedData.email === 'string' ? storedData.email : '',
+            phone: typeof storedData.phone === 'string' ? storedData.phone : undefined,
+            organization: typeof storedData.organization === 'string' ? storedData.organization : undefined,
+            product: typeof storedData.product === 'string' ? storedData.product : undefined,
+          };
+          await submitToFormspree(safeFormData, imageUrls);
 
           // Clean up temp data
-          delete (window as any).tempFormData;
-          delete (window as any).tempImageFiles;
+          delete window.tempFormData;
+          delete window.tempImageFiles;
 
           setSuccess(true);
-        } catch (err) {
+        } catch (err: unknown) {
+          if (err instanceof Error) {
+            setError(err.message);
+          } else {
+            setError("An unexpected error occurred. Please contact support.");
+          }
           console.error('Processing error:', err);
-          setError(err instanceof Error ? err.message : "An unexpected error occurred. Please contact support.");
         } finally {
           setLoading(false);
-          // Clean up URL
           router.replace(window.location.pathname);
         }
       })();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   // Handle Flutterwave script load
