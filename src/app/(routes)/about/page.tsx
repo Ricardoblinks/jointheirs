@@ -1,19 +1,85 @@
-
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+const eventImages = [
+  // Extra2
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-18-40.jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-18-40(1).jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-18-55(1).jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-18-55(2).jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-18-56(1).jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-18-57.jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-18-57(1).jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-18-59.jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-18-59(1).jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-00.jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-00(1).jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-01(1).jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-02.jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-02(1).jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-03.jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-04.jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-05.jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-05(1).jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-06.jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-10.jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-11(1).jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-13.jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-13(1).jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-20.jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-25.jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-28.jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-29.jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-29(1).jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-30.jpg',
+  '/images/shared/Extra2/PHOTO-2025-08-03-19-19-30(1).jpg',
+  // Extras
+  '/images/shared/Extras/1.jpg',
+  '/images/shared/Extras/2.jpg',
+  '/images/shared/Extras/3.jpg',
+  '/images/shared/Extras/4.jpg',
+  '/images/shared/Extras/5.jpg',
+  '/images/shared/Extras/6.jpg',
+  '/images/shared/Extras/7.jpg',
+  '/images/shared/Extras/8.jpg',
+  '/images/shared/Extras/9.jpg',
+  '/images/shared/Extras/10.jpg',
+  '/images/shared/Extras/11.jpg',
+  '/images/shared/Extras/12.jpg',
+  '/images/shared/Extras/PHOTO-2025-07-26-13-20-07(2).jpg',
+  '/images/shared/Extras/PHOTO-2025-07-26-13-20-08.jpg',
+  '/images/shared/Extras/PHOTO-2025-07-26-13-20-08(1).jpg',
+  '/images/shared/Extras/PHOTO-2025-07-26-13-20-08(2).jpg',
+  '/images/shared/Extras/PHOTO-2025-07-26-13-20-09.jpg',
+  '/images/shared/Extras/PHOTO-2025-07-26-13-20-12.jpg',
+  '/images/shared/Extras/PHOTO-2025-07-26-13-20-14.jpg',
+  '/images/shared/Extras/PHOTO-2025-07-26-13-20-14(1).jpg',
+  '/images/shared/Extras/PHOTO-2025-07-26-13-20-14(2).jpg',
+  '/images/shared/Extras/PHOTO-2025-07-26-13-20-15.jpg',
+  '/images/shared/Extras/PHOTO-2025-07-26-13-20-15(1).jpg',
+  '/images/shared/Extras/PHOTO-2025-07-26-13-20-17.jpg',
+  '/images/shared/Extras/PHOTO-2025-07-26-13-20-17(2).jpg',
+];
+
 export default function AboutPage() {
+  const [visibleCount, setVisibleCount] = useState(12);
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 12);
+  };
+
   return (
     <div className="min-h-screen font-sans" style={{ fontFamily: 'Poppins, sans-serif' }}>
-      {/* Hero Section */}
+    {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-green-800 text-white overflow-hidden">
         <div className="absolute inset-0">
           <Image src="/images/shared/landingpage-top.jpg" alt="About Hero" fill className="object-cover opacity-30" priority />
         </div>
         <div className="relative container mx-auto px-6 py-24 lg:py-40 text-center">
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto">
             <h1 className="font-heading text-4xl lg:text-6xl mb-6">About Joint Heirs Limited</h1>
             <p className="text-xl lg:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto">
               Investing in your future. Delivering qualitative, timely, and value-based services to realize clients&apos; goals and aspirations through target-oriented professionals and innovative technology.
@@ -28,8 +94,7 @@ export default function AboutPage() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <Image
-								src="/images/shared/officebuilding.jpg"
-                // src="/images/shared/company-building-exterior.jpg"
+                src="/images/shared/officebuilding.jpg"
                 alt=""
                 width={600}
                 height={400}
@@ -77,8 +142,6 @@ export default function AboutPage() {
             <div>
               <Image
                 src="/images/shared/ceo.jpg"
-
-                // src="/images/shared/adanma-ogumka-ekeji-profile.jpg"
                 alt="Adanma Ogumka-Ekeji"
                 width={300}
                 height={300}
@@ -86,6 +149,44 @@ export default function AboutPage() {
               />
             </div>
           </div>
+        </div>
+      </section>
+      {/* Events Gallery Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4">Our Previous Events</h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Highlights from our initiatives and programs across Nigeria.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10">
+            {eventImages.slice(0, visibleCount).map((src, index) => (
+              <div
+                key={index}
+                className="relative h-64 rounded-xl overflow-hidden shadow hover:shadow-lg transition-shadow duration-300"
+              >
+                <Image
+                  src={src}
+                  alt={`Event ${index + 1}`}
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            ))}
+          </div>
+
+          {visibleCount < eventImages.length && (
+            <div className="text-center">
+              <button
+                onClick={handleLoadMore}
+                className="px-6 py-3 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition duration-300"
+              >
+                Load More
+              </button>
+            </div>
+          )}
         </div>
       </section>
 

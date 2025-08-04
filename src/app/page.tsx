@@ -86,15 +86,59 @@ const partners = [
 	{ name: 'Central Bank of Nigeria', logo: '/images/partners/cbn-logo.png' },
 ];
 
+// Updated hero images with Extra2 folder
 const heroImages = [
-	'/images/shared/Extras/1.jpg',
-	'/images/shared/Extras/2.jpg',
-	'/images/shared/Extras/4.jpg',
-	'/images/shared/Extras/6.jpg',
-	'/images/shared/Extras/3.jpg',
-	'/images/shared/Extras/10.jpg',
-	'/images/shared/Extras/8.jpg',
-	
+	'/images/shared/Extra2/PHOTO-2025-08-03-19-18-40.jpg',
+	'/images/shared/Extra2/PHOTO-2025-08-03-19-19-13.jpg',
+	'/images/shared/Extra2/PHOTO-2025-08-03-19-19-25.jpg',
+	'/images/shared/Extra2/PHOTO-2025-08-03-19-19-28.jpg',
+	'/images/shared/Extra2/PHOTO-2025-08-03-19-19-05.jpg',
+	'/images/shared/Extra2/PHOTO-2025-08-03-19-19-11(1).jpg',
+	'/images/shared/Extra2/PHOTO-2025-08-03-19-19-20.jpg',
+];
+
+// Gallery images for the new activities section
+const activityImages = [
+	{ 
+		src: '/images/shared/Extra2/PHOTO-2025-08-03-19-18-55(1).jpg',
+		title: 'GEMAEXPO Training Session',
+		description: 'Entrepreneurs learning export strategies'
+	},
+	{
+		src: '/images/shared/Extra2/PHOTO-2025-08-03-19-18-57.jpg',
+		title: 'Women Empowerment Program',
+		description: 'Skills development workshop for women'
+	},
+	{
+		src: '/images/shared/Extra2/PHOTO-2025-08-03-19-19-02.jpg',
+		title: 'BOIN Agricultural Training',
+		description: 'Farmers learning modern techniques'
+	},
+	{
+		src: '/images/shared/Extra2/PHOTO-2025-08-03-19-19-04.jpg',
+		title: 'Youth Leadership Summit',
+		description: 'Developing next generation leaders'
+	},
+	{
+		src: '/images/shared/Extra2/PHOTO-2025-08-03-19-19-06.jpg',
+		title: 'Community Outreach',
+		description: 'Grassroots engagement programs'
+	},
+	{
+		src: '/images/shared/Extra2/PHOTO-2025-08-03-19-19-10.jpg',
+		title: 'Partnership Meetings',
+		description: 'Stakeholder collaboration sessions'
+	},
+	{
+		src: '/images/shared/Extra2/PHOTO-2025-08-03-19-19-29.jpg',
+		title: 'Award Ceremonies',
+		description: 'Celebrating success stories'
+	},
+	{
+		src: '/images/shared/Extra2/PHOTO-2025-08-03-19-19-30.jpg',
+		title: 'Innovation Showcase',
+		description: 'Highlighting creative solutions'
+	}
 ];
 
 export default function HomePage() {
@@ -162,11 +206,6 @@ export default function HomePage() {
 				<div className="container mx-auto px-4 py-20 relative z-10">
 					<div className="grid lg:grid-cols-2 gap-12 items-center">
 						<div className="space-y-8 py-2">
-							{/* <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 text-sm">
-								<Calendar className="w-4 h-4 text-emerald-400" />
-								<span>Established 1992 • 33+ Years of Impact</span>
-							</div> */}
-							
 							<h1 className="text-5xl lg:text-7xl font-bold leading-tight">
 								Investing in Your
 								<span className="block bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
@@ -197,7 +236,7 @@ export default function HomePage() {
 									<Image
 										key={index}
 										src={image}
-										alt={`Hero ${index + 1}`}
+										alt={`Our Activities ${index + 1}`}
 										fill
 										className={`object-cover transition-all duration-1000 ${
 											index === currentHeroImage ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
@@ -285,7 +324,7 @@ export default function HomePage() {
 				</div>
 			</section>
 
-			{/* ongoing Registration CTA */}
+			{/* Ongoing Registration CTA - Priority Section */}
 			<section id='ongoing' className="py-16 bg-gradient-to-r from-blue-600 to-emerald-600 relative overflow-hidden">
 				<div className="absolute inset-0 bg-black/10"></div>
 				<div className="container mx-auto px-4 relative z-10">
@@ -327,8 +366,77 @@ export default function HomePage() {
 				</div>
 			</section>
 
+			{/* Activities Gallery Section
+<section className="py-20 bg-white">
+  <div className="container mx-auto px-4">
+    <div className="text-center mb-12">
+      <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+        Our Activities in Action
+      </h2>
+      <p className="text-lg text-slate-500">
+        A glimpse into our past events, training sessions, and community impact — captured in moments.
+      </p>
+    </div>
+
+    <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {activityImages.map((activity, index) => (
+        <div key={index} className="overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300">
+          <div className="relative h-64">
+            <Image
+              src={activity.src}
+              alt={`Activity ${index + 1}`}
+              fill
+              className="object-cover transition-transform duration-700 hover:scale-105"
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+ */}
+
+ {/* Activities Gallery Section - Image-Only with Link */}
+<section className="py-20 bg-white">
+  <div className="container mx-auto px-4">
+    <div className="text-center mb-12">
+      <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+        Our Activities in Action
+      </h2>
+      <p className="text-lg text-slate-500">
+        A glimpse into our past events, training sessions, and community impact — captured in moments.
+      </p>
+    </div>
+
+    <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
+      {activityImages.slice(0, 8).map((activity, index) => ( // Show only top 8 images
+        <div key={index} className="overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300">
+          <div className="relative h-64">
+            <Image
+              src={activity.src}
+              alt={`Activity ${index + 1}`}
+              fill
+              className="object-cover transition-transform duration-700 hover:scale-105"
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div className="text-center">
+      <Link
+        href="/about"
+        className="inline-block px-8 py-4 bg-blue-600 text-white font-semibold rounded-full shadow-md hover:bg-blue-700 transition duration-300"
+      >
+        View All Activities
+      </Link>
+    </div>
+  </div>
+</section>
+
+
 			{/* Initiatives Section */}
-			<section className="py-20 bg-white">
+			<section className="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
 				<div className="container mx-auto px-4">
 					<div className="text-center mb-16">
 						<h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">Our Key Initiatives</h2>
@@ -379,7 +487,7 @@ export default function HomePage() {
 			</section>
 
 			{/* Testimonials Section */}
-			<section className="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
+			<section className="py-20 bg-white">
 				<div className="container mx-auto px-4">
 					<div className="text-center mb-16">
 						<h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">Success Stories</h2>
@@ -389,7 +497,7 @@ export default function HomePage() {
 					</div>
 					
 					<div className="max-w-4xl mx-auto">
-						<div className="relative bg-white rounded-3xl p-8 lg:p-12 shadow-xl">
+						<div className="relative bg-gradient-to-br from-slate-50 to-blue-50 rounded-3xl p-8 lg:p-12 shadow-xl">
 							<div className="text-center">
 								<div className="flex justify-center mb-4">
 									{[...Array(testimonials[currentTestimonial].rating)].map((_, i) => (
@@ -433,7 +541,7 @@ export default function HomePage() {
 			</section>
 
 			{/* Leadership Section */}
-			<section className="py-20 bg-white">
+			<section className="py-20 bg-gradient-to-br from-slate-50 to-emerald-50">
 				<div className="container mx-auto px-4">
 					<div className="grid lg:grid-cols-2 gap-16 items-center">
 						<div className="space-y-8">
@@ -493,7 +601,7 @@ export default function HomePage() {
 			</section>
 
 			{/* Partners Section */}
-			<section className="py-20 bg-gradient-to-br from-slate-50 to-emerald-50">
+			<section className="py-20 bg-white">
 				<div className="container mx-auto px-4">
 					<div className="text-center mb-16">
 						<h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">Strategic Partners</h2>

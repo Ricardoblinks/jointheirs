@@ -23,6 +23,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [flutterwaveLoaded, setFlutterwaveLoaded] = useState(false);
 
   // Handle image selection
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -36,34 +37,84 @@ export default function RegisterPage() {
     setPreview(Array.from(files).map((f) => URL.createObjectURL(f)));
   }
 
-  // Store form data in sessionStorage before payment
+  // Store form data in temporary storage before payment
   function storeFormData() {
     const formData = { name, email, phone, organization, product };
-    sessionStorage.setItem('gemaexpo_form_data', JSON.stringify(formData));
-    
-    // Store image files as base64 for later upload
-    if (catalogue) {
-      const imagePromises = Array.from(catalogue).map(file => {
-        return new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve({
-            name: file.name,
-            type: file.type,
-            data: reader.result
-          });
-          reader.readAsDataURL(file);
-        });
-      });
-      
-      Promise.all(imagePromises).then(images => {
-        sessionStorage.setItem('gemaexpo_images', JSON.stringify(images));
-      });
+    if (typeof window !== 'undefined') {
+      window.tempFormData = formData;
+      window.tempImageFiles = catalogue;
     }
+  }
+
+  // Upload images to Cloudinary
+  async function uploadImages(files: FileList): Promise<string[]> {
+    const imageUrls: string[] = [];
+    
+    for (const file of Array.from(files)) {
+      try {
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("upload_preset", "jointheir-form");
+
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/dpvvmocxs/image/upload",
+          { method: "POST", body: fd }
+        );
+
+        const uploadData = await res.json();
+        if (uploadData.secure_url) {
+          imageUrls.push(uploadData.secure_url);
+        }
+      } catch (uploadError) {
+        console.error('Image upload error:', uploadError);
+      }
+    }
+    
+    return imageUrls;
+  }
+
+  // Submit form data to Formspree
+  async function submitToFormspree(formData: any, imageUrls: string[]) {
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      organization: formData.organization,
+      product: formData.product,
+      images: imageUrls.length > 0 ? imageUrls.join(', ') : 'No images uploaded'
+    };
+
+    const res = await fetch("https://formspree.io/f/meozzorw", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Form submission failed: ${res.status}`);
+    }
+
+    return res.json();
   }
 
   // Handle form submit: kick off Flutterwave
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    
+    // Validate form
+    if (!name || !email || !phone || !product || !catalogue || catalogue.length === 0) {
+      setError("Please fill in all required fields and upload at least one product image.");
+      return;
+    }
+
+    if (!flutterwaveLoaded) {
+      setError("Payment system is still loading. Please wait a moment and try again.");
+      return;
+    }
+
     setError(null);
     setLoading(true);
 
@@ -74,21 +125,39 @@ export default function RegisterPage() {
     const tx_ref = `expo-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
     const successUrl = `${base}?payment=success&tx_ref=${tx_ref}`;
 
-    // @ts-expect-error: FlutterwaveCheckout injected by script
-    FlutterwaveCheckout({
-      public_key: "FLWPUBK-a9908918f6b11103587958a73a1a1564-X",
-      tx_ref,
-      amount: 100,
-      currency: "NGN",
-      payment_options: "card,mobilemoneyghana,ussd",
-      redirect_url: successUrl,
-      customer: { email, phone_number: phone, name },
-      customizations: {
-        title: "Joint Heirs: GEMAEXPO L2G 2025",
-        description: "Expo registration",
-        logo: "https://jointheir.netlify.app/_next/image?url=%2Fimages%2Fshared%jointheirslogo.png&w=128&q=75",
-      },
-    });
+    try {
+      // @ts-expect-error: FlutterwaveCheckout injected by script
+      FlutterwaveCheckout({
+        public_key: "FLWPUBK-a9908918f6b11103587958a73a1a1564-X",
+        tx_ref,
+        amount: 100,
+        currency: "NGN",
+        payment_options: "card,mobilemoneyghana,ussd",
+        redirect_url: successUrl,
+        customer: { email, phone_number: phone, name },
+        customizations: {
+          title: "Joint Heirs: GEMAEXPO L2G 2025",
+          description: "Expo registration",
+          logo: "https://jointheir.netlify.app/_next/image?url=%2Fimages%2Fshared%jointheirslogo.png&w=128&q=75",
+        },
+        onclose: function() {
+          setLoading(false);
+        },
+        callback: function(response: any) {
+          if (response.status === "successful") {
+            // Handle successful payment
+            window.location.href = successUrl;
+          } else {
+            setLoading(false);
+            setError("Payment was not successful. Please try again.");
+          }
+        }
+      });
+    } catch (err) {
+      setLoading(false);
+      setError("Failed to initialize payment. Please try again.");
+      console.error("Flutterwave error:", err);
+    }
   }
 
   // Handle payment success and upload
@@ -100,87 +169,47 @@ export default function RegisterPage() {
           setError(null);
           setLoading(true);
 
-          // Restore form data first
-          const storedData = sessionStorage.getItem('gemaexpo_form_data');
-          const storedImages = sessionStorage.getItem('gemaexpo_images');
+          // Get stored form data
+          const storedData = (window as any).tempFormData;
+          const storedImages = (window as any).tempImageFiles;
           
           if (!storedData) {
-            throw new Error('Form data not found. Please try again.');
+            throw new Error('Form data not found. Please try registering again.');
           }
 
-          const data = JSON.parse(storedData);
-          console.log('Restored data:', data);
+          console.log('Processing registration for:', storedData.name);
 
-          // Restore images
-          const imageUrls: string[] = [];
-          if (storedImages) {
-            const images = JSON.parse(storedImages);
-            console.log('Restoring images:', images.length);
-            
-            // Convert base64 back to files and upload
-            for (const img of images) {
-              try {
-                const response = await fetch(img.data);
-                const blob = await response.blob();
-                const file = new File([blob], img.name, { type: img.type });
-                
-                const fd = new FormData();
-                fd.append("file", file);
-                fd.append("upload_preset", "jointheir-form");
-
-                const res = await fetch(
-                  "https://api.cloudinary.com/v1_1/dpvvmocxs/image/upload",
-                  { method: "POST", body: fd }
-                );
-
-                const uploadData = await res.json();
-                if (uploadData.secure_url) {
-                  imageUrls.push(uploadData.secure_url);
-                }
-              } catch (uploadError) {
-                console.error('Image upload error:', uploadError);
-              }
-            }
+          // Upload images first
+          let imageUrls: string[] = [];
+          if (storedImages && storedImages.length > 0) {
+            console.log('Uploading images:', storedImages.length);
+            imageUrls = await uploadImages(storedImages);
           }
 
-          // Submit to Formspree with restored data
-          const payload = {
-            name: data.name,
-            email: data.email,
-            phone: data.phone,
-            organization: data.organization,
-            product: data.product,
-            images: imageUrls.length > 0 ? imageUrls.join(', ') : 'No images uploaded'
-          };
+          // Submit to Formspree
+          await submitToFormspree(storedData, imageUrls);
 
-          const res = await fetch("https://formspree.io/f/meozzorw", {
-            method: "POST",
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            },
-            body: JSON.stringify(payload),
-          });
-
-          if (!res.ok) {
-            throw new Error(`Form submission failed: ${res.status}`);
-          }
-
-          // Clean up storage
-          sessionStorage.removeItem('gemaexpo_form_data');
-          sessionStorage.removeItem('gemaexpo_images');
+          // Clean up temp data
+          delete (window as any).tempFormData;
+          delete (window as any).tempImageFiles;
 
           setSuccess(true);
         } catch (err) {
           console.error('Processing error:', err);
-          setError(err instanceof Error ? err.message : "An unexpected error occurred.");
+          setError(err instanceof Error ? err.message : "An unexpected error occurred. Please contact support.");
         } finally {
           setLoading(false);
+          // Clean up URL
           router.replace(window.location.pathname);
         }
       })();
     }
   }, [router]);
+
+  // Handle Flutterwave script load
+  const handleFlutterwaveLoad = () => {
+    setFlutterwaveLoaded(true);
+  };
 
   if (success) {
     return (
@@ -257,7 +286,9 @@ export default function RegisterPage() {
     <>
       <Script
         src="https://checkout.flutterwave.com/v3.js"
-        strategy="beforeInteractive"
+        strategy="afterInteractive"
+        onLoad={handleFlutterwaveLoad}
+        onError={() => setError("Failed to load payment system. Please refresh the page.")}
       />
 
       <div className="min-h-screen bg-gradient-to-r from-blue-50 to-green-50 flex items-center justify-center py-16 px-4">
@@ -267,7 +298,16 @@ export default function RegisterPage() {
           </h1>
           
           {error && (
-            <p className="text-red-600 mb-4 text-center">{error}</p>
+            <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg mb-6">
+              <p className="font-medium">Error:</p>
+              <p>{error}</p>
+            </div>
+          )}
+
+          {!flutterwaveLoaded && (
+            <div className="bg-yellow-50 border border-yellow-200 text-yellow-700 p-4 rounded-lg mb-6">
+              <p>Loading payment system...</p>
+            </div>
           )}
 
           <p className="text-gray-700 text-lg mb-6 text-center">
@@ -362,27 +402,23 @@ export default function RegisterPage() {
                       alt="Catalogue Preview"
                       width={100}
                       height={100}
-                      className="rounded-lg border"
+                      className="rounded-lg border object-cover"
                     />
                   ))
                 ) : (
-                  <Image
-                    src="/images/shared/placeholder.jpg"
-                    alt="Placeholder"
-                    width={100}
-                    height={100}
-                    className="rounded-lg border"
-                  />
+                  <div className="w-24 h-24 bg-gray-100 rounded-lg border flex items-center justify-center text-gray-400 text-sm">
+                    No images
+                  </div>
                 )}
               </div>
             </div>
             
             <button
               type="submit"
-              disabled={loading}
-              className="btn-primary w-full py-3 text-lg rounded-lg flex items-center justify-center gap-2"
+              disabled={loading || !flutterwaveLoaded}
+              className="btn-primary w-full py-3 text-lg rounded-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Processing…" : "Proceed to Payment"}
+              {loading ? "Processing…" : "Proceed to Payment (₦100)"}
             </button>
           </form>
 
