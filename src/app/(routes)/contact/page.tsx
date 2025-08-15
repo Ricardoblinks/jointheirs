@@ -18,8 +18,8 @@ const contactInfo = [
     icon: MapPin,
     title: 'Office Address',
     details: [
-      'SATID Complex, Plot 51 Eze Ogbulafor',
-      'Umuahia, Abia State, Nigeria'
+      '222 portharcourt road, Aba',
+      'Abia State, Nigeria'
     ],
     color: 'text-blue-600'
   },

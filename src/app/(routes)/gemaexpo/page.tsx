@@ -119,7 +119,7 @@ export default function GemaexpoPage() {
               href="#registernow" 
               className="btn-primary text-lg px-10 py-5 rounded-xl font-semibold shadow-lg hover:transform hover:-translate-y-1 transition-all duration-300"
             >
-              Register for 2024 Expo
+              Register for 2025 Expo
               <ArrowRight className="ml-2 h-5 w-5 inline" />
             </Link>
             <Link 
@@ -277,7 +277,7 @@ export default function GemaexpoPage() {
           <div className="text-center mb-16">
             <h2 className="font-heading text-4xl lg:text-5xl mb-6 font-bold text-blue-900">Participation Opportunities</h2>
             <p className="text-2xl text-gray-600 max-w-3xl mx-auto">
-              Choose how you&apos;d like to be involved in GEMAEXPO L2G 2024. Each participation type offers unique benefits and opportunities for growth.
+              Choose how you&apos;d like to be involved in GEMAEXPO L2G 2025. Each participation type offers unique benefits and opportunities for growth.
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-10">
@@ -323,14 +323,15 @@ export default function GemaexpoPage() {
                   <MapPin className="h-7 w-7 text-blue-600 mt-1" />
                   <div>
                     <h3 className="font-semibold text-xl">Annual Location</h3>
-                    <p className="text-gray-600 text-lg">Umuahia, Abia State, Nigeria</p>
+                    <p className="text-gray-600 text-lg">Abia State, Nigeria</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <Calendar className="h-7 w-7 text-green-600 mt-1" />
                   <div>
-                    <h3 className="font-semibold text-xl">2024 Event</h3>
-                    <p className="text-gray-600 text-lg">November 15-17, 2024</p>
+                    <h3 className="font-semibold text-xl">2025 Event</h3>
+                    {/* <p className="text-gray-600 text-lg"> 2025</p> */}
+                    {/* <p className="text-gray-600 text-lg">November 15-17, 2024</p> */}
                   </div>
                 </div>
               </div>
@@ -358,7 +359,7 @@ export default function GemaexpoPage() {
       {/* CTA Section */}
       <section id='registernow' className="py-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
         <div className="container mx-auto px-6 text-center">
-          <h2 className="font-heading text-4xl lg:text-5xl mb-8 font-bold">Ready to Join GEMAEXPO L2G 2024?</h2>
+          <h2 className="font-heading text-4xl lg:text-5xl mb-8 font-bold">Ready to Join GEMAEXPO L2G 2025?</h2>
           <p className="text-2xl mb-10 max-w-2xl mx-auto font-medium">
             Don&apos;t miss this opportunity to connect with thousands of entrepreneurs, access new markets, and grow your business to the next level.
           </p>

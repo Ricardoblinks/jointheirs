@@ -61,8 +61,8 @@ export default function Footer() {
                 <MapPin className="h-5 w-5 text-blue-400 mt-1 flex-shrink-0" />
                 <div>
                   <p className="text-gray-300">
-                    SATID Complex, Plot 51 Eze Ogbulafor<br />
-                    Umuahia, Abia State, Nigeria
+                    222 portharcourt road, Aba<br />
+                    Abia State, Nigeria
                   </p>
                 </div>
               </div>

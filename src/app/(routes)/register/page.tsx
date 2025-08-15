@@ -155,7 +155,7 @@ export default function RegisterPage() {
       FlutterwaveCheckout({
         public_key: "FLWPUBK-a9908918f6b11103587958a73a1a1564-X",
         tx_ref,
-        amount: 100,
+        amount: 150000,
         currency: "NGN",
         payment_options: "card,mobilemoneyghana,ussd",
         redirect_url: successUrl,
@@ -452,7 +452,7 @@ export default function RegisterPage() {
               disabled={loading || !flutterwaveLoaded}
               className="btn-primary w-full py-3 text-lg rounded-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Processing…" : "Proceed to Payment (₦100)"}
+              {loading ? "Processing…" : "Proceed to Payment (₦150000)"}
             </button>
           </form>
 
