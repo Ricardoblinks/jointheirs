@@ -343,7 +343,7 @@ export default function GemaexpoPage() {
             </div>
             <div>
               <Image
-                src="/images/shared/placeholder.jpg"
+                src="/images/shared/Extras/4.jpg"
                 // src="/images/initiatives/gemaexpo/trade-show-displays.jpg"
                 alt="GEMAEXPO Trade Show Displays"
                 width={600}

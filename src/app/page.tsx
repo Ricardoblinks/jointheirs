@@ -89,43 +89,43 @@ const partners = [
 // Updated hero images with Extra2 folder
 const heroImages = [
 	'/images/shared/Extra2/PHOTO-2025-08-03-19-18-40.jpg',
-	'/images/shared/Extra2/PHOTO-2025-08-03-19-19-13.jpg',
-	'/images/shared/Extra2/PHOTO-2025-08-03-19-19-25.jpg',
+	// '/images/shared/Extra2/PHOTO-2025-08-03-19-19-13.jpg',
+	// '/images/shared/Extra2/PHOTO-2025-08-03-19-19-25.jpg',
 	'/images/shared/Extra2/PHOTO-2025-08-03-19-19-28.jpg',
-	'/images/shared/Extra2/PHOTO-2025-08-03-19-19-05.jpg',
-	'/images/shared/Extra2/PHOTO-2025-08-03-19-19-11(1).jpg',
-	'/images/shared/Extra2/PHOTO-2025-08-03-19-19-20.jpg',
+	// '/images/shared/Extra2/PHOTO-2025-08-03-19-19-05.jpg',
+	// '/images/shared/Extra2/PHOTO-2025-08-03-19-19-11(1).jpg',
+	// '/images/shared/Extra2/PHOTO-2025-08-03-19-19-20.jpg',
 ];
 
 // Gallery images for the new activities section
 const activityImages = [
 	{ 
-		src: '/images/shared/Extra2/PHOTO-2025-08-03-19-18-55(1).jpg',
+		src: '/images/shared/Extras/2.jpg',
 		title: 'GEMAEXPO Training Session',
 		description: 'Entrepreneurs learning export strategies'
 	},
 	{
-		src: '/images/shared/Extra2/PHOTO-2025-08-03-19-18-57.jpg',
+		src: '/images/shared/Extras/5.jpg',
 		title: 'Women Empowerment Program',
 		description: 'Skills development workshop for women'
 	},
 	{
-		src: '/images/shared/Extra2/PHOTO-2025-08-03-19-19-02.jpg',
+		src: '/images/shared/Extras/9.jpg',
 		title: 'BOIN Agricultural Training',
 		description: 'Farmers learning modern techniques'
 	},
 	{
-		src: '/images/shared/Extra2/PHOTO-2025-08-03-19-19-04.jpg',
+		src: '/images/shared/Extras/10.jpg',
 		title: 'Youth Leadership Summit',
 		description: 'Developing next generation leaders'
 	},
 	{
-		src: '/images/shared/Extra2/PHOTO-2025-08-03-19-19-06.jpg',
+		src: '/images/shared/Extra2/PHOTO-2025-08-03-19-19-30(1).jpg',
 		title: 'Community Outreach',
 		description: 'Grassroots engagement programs'
 	},
 	{
-		src: '/images/shared/Extra2/PHOTO-2025-08-03-19-19-10.jpg',
+		src: '/images/shared/Extra2/PHOTO-2025-08-03-19-19-28.jpg',
 		title: 'Partnership Meetings',
 		description: 'Stakeholder collaboration sessions'
 	},
